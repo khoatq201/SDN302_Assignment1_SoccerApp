@@ -1,0 +1,125 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+      <svg width="640" height="160" viewBox="0 0 640 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Football icon -->
+        <circle cx="80" cy="80" r="60" fill="#00d1b2" stroke="#ffffff" stroke-width="4" />
+        <path d="M50 60 L110 60 M50 100 L110 100 M80 20 L80 140 M35 45 L125 115 M35 115 L125 45" stroke="#ffffff"
+          stroke-width="3" fill="none" />
+        <circle cx="80" cy="80" r="8" fill="#ffffff" />
+
+        <!-- Text "FOOTBALL PLAYERS" -->
+        <text x="170" y="50" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#363636">
+          FOOTBALL
+        </text>
+        <text x="170" y="85" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#363636">
+          PLAYERS
+        </text>
+
+        <!-- Decorative elements -->
+        <rect x="170" y="95" width="200" height="3" fill="#00d1b2" />
+        <circle cx="380" cy="40" r="8" fill="#00d1b2" />
+        <circle cx="400" cy="60" r="6" fill="#48c774" />
+        <circle cx="420" cy="80" r="4" fill="#3273dc" />
+      </svg>
+    </a>
+
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="/">
+        Home
+      </a>
+
+      <a class="navbar-item">
+        Documentation
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More
+        </a>
+
+        <div class="navbar-dropdown">
+          <a class="navbar-item">
+            About
+          </a>
+          <a class="navbar-item is-selected">
+            Jobs
+          </a>
+          <a class="navbar-item">
+            Contact
+          </a>
+          <hr class="navbar-divider" />
+          <a class="navbar-item">
+            Report an issue
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar-end mr-6">
+      <div class="level-right">
+        <div class="level-item">
+          {{#if user}}
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+              {{#if user.avatar}}
+              <figure class="image is-24x24 mr-2">
+                <img class="is-rounded" src="{{user.avatar}}" alt="{{user.name}}">
+              </figure>
+              {{else}}
+              <span class="icon">
+                <i class="fas fa-user"></i>
+              </span>
+              {{/if}}
+              <span>{{user.name}}</span>
+            </a>
+            <div class="navbar-dropdown">
+              <a class="navbar-item" href="/members">
+                <span class="icon">
+                  <i class="fas fa-user-circle"></i>
+                </span>
+                <span>Profile</span>
+              </a>
+              {{#if user.isAdmin}}
+              <a class="navbar-item" href="/admin">
+                <span class="icon">
+                  <i class="fas fa-cog"></i>
+                </span>
+                <span>Admin Panel</span>
+              </a>
+              {{/if}}
+              <hr class="navbar-divider">
+              <a class="navbar-item" href="/auth/logout">
+                <span class="icon">
+                  <i class="fas fa-sign-out-alt"></i>
+                </span>
+                <span>Logout</span>
+              </a>
+            </div>
+          </div>
+          {{else}}
+          <div class="buttons">
+            <a href="/login" class="button is-light">
+              <i class="fas fa-sign-in-alt"></i>
+              <span>Login</span>
+            </a>
+            <a href="/register" class="button is-primary">
+              <i class="fas fa-user-plus"></i>
+              <span>Register</span>
+            </a>
+          </div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

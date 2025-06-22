@@ -1,0 +1,201 @@
+<section class="hero is-success is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        <i class="fas fa-user-plus"></i>
+        Create Player
+      </h1>
+      <h2 class="subtitle">
+        Add a new football player to the database
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <!-- Form Column -->
+      <div class="column is-two-thirds">
+        <div class="box">
+          <h3 class="title is-4">Player Information</h3>
+
+          <form action="/admin/players" method="POST">
+            <div class="columns">
+              <div class="column">
+                <div class="field">
+                  <label class="label">Player Name</label>
+                  <div class="control has-icons-left">
+                    <input
+                      class="input"
+                      type="text"
+                      name="playerName"
+                      placeholder="Enter player name"
+                      required
+                    />
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-user"></i>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label class="label">Team</label>
+                  <div class="control has-icons-left">
+                    <div class="select is-fullwidth">
+                      <select name="team" required>
+                        <option value="">Select a team</option>
+                        {{#each teams}}
+                          <option value="{{_id}}">{{teamName}}</option>
+                        {{/each}}
+                      </select>
+                    </div>
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-shield-alt"></i>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label class="label">Cost</label>
+                  <div class="control has-icons-left">
+                    <input
+                      class="input"
+                      type="number"
+                      name="cost"
+                      placeholder="Enter player cost"
+                      min="0"
+                      step="0.01"
+                      required
+                    />
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-dollar-sign"></i>
+                    </span>
+                  </div>
+                  <p class="help">Player cost in millions</p>
+                </div>
+              </div>
+
+              <div class="column">
+                <div class="field">
+                  <label class="label">Player Image</label>
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="url"
+                      name="image"
+                      placeholder="Enter image URL"
+                      required
+                    />
+                  </div>
+                  <p class="help">URL of the player's image</p>
+                </div>
+
+                <div class="field">
+                  <label class="checkbox">
+                    <input type="checkbox" name="isCaptain" />
+                    Is Captain
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Information</label>
+              <div class="control">
+                <textarea
+                  class="textarea"
+                  name="information"
+                  placeholder="Enter player information, position, achievements, etc."
+                  rows="4"
+                  required
+                ></textarea>
+              </div>
+              <p class="help">Detailed information about the player</p>
+            </div>
+
+            <div class="field is-grouped">
+              <div class="control">
+                <button class="button is-success" type="submit">
+                  <span class="icon">
+                    <i class="fas fa-plus"></i>
+                  </span>
+                  <span>Create Player</span>
+                </button>
+              </div>
+              <div class="control">
+                <button class="button is-light" type="reset">
+                  <span class="icon">
+                    <i class="fas fa-undo"></i>
+                  </span>
+                  <span>Reset</span>
+                </button>
+              </div>
+              <div class="control">
+                <a class="button is-light" href="/admin">
+                  <span class="icon">
+                    <i class="fas fa-arrow-left"></i>
+                  </span>
+                  <span>Cancel</span>
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Players List Column -->
+      <div class="column is-one-third">
+        <div class="box">
+          <h3 class="title is-4">Recent Players</h3>
+
+          {{#if players.length}}
+            {{#each players}}
+              <div class="media">
+                <div class="media-left">
+                  <figure class="image is-48x48">
+                    {{#if image}}
+                      <img
+                        class="is-rounded"
+                        src="{{image}}"
+                        alt="{{playerName}}"
+                      />
+                    {{else}}
+                      <div class="default-player-img">
+                        <i class="fas fa-user"></i>
+                      </div>
+                    {{/if}}
+                  </figure>
+                </div>
+                <div class="media-content">
+                  <div class="content">
+                    <p>
+                      <strong>{{playerName}}</strong>
+                      {{#if isCaptain}}
+                        <span class="tag is-warning is-small">Captain</span>
+                      {{/if}}
+                      <br />
+                      <small>{{team.teamName}}</small>
+                      <br />
+                      <small class="has-text-grey">${{cost}}M</small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              {{#unless @last}}<hr />{{/unless}}
+            {{/each}}
+          {{else}}
+            <div class="notification is-info">
+              <div class="has-text-centered">
+                <i class="fas fa-users fa-2x"></i>
+                <p class="title is-6 mt-2">No players yet</p>
+                <p class="subtitle is-7">Players will appear here after
+                  creation.</p>
+              </div>
+            </div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

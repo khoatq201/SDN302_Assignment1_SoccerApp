@@ -1,0 +1,482 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{#if user}}{{user.name}} - Profile{{else}}User Profile{{/if}}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <style>
+    .profile-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      background: #fff;
+      border: 4px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: #667eea;
+    }
+
+    .profile-card {
+      margin-top: -60px;
+      z-index: 10;
+    }
+
+    .info-item {
+      padding: 1rem;
+      border-bottom: 1px solid #f5f5f5;
+    }
+
+    .info-item:last-child {
+      border-bottom: none;
+    }
+
+    .edit-form {
+      display: none;
+    }
+
+    .edit-form.is-active {
+      display: block;
+    }
+
+    .view-mode.is-hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar is-primary" role="navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">
+        <strong>Football Players</strong>
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-end">
+        {{#if user}}
+        <div class="navbar-item">
+          <span>Welcome, {{user.name}}!</span>
+        </div>
+        <a class="navbar-item" href="/logout">
+          <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+          <span>Logout</span>
+        </a>
+        {{else}}
+        <a class="navbar-item" href="/login">Login</a>
+        {{/if}}
+      </div>
+    </div>
+  </nav>
+
+  {{#if user}}
+  <!-- Profile Header -->
+  <section class="hero is-medium profile-header">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <div class="profile-avatar is-inline-block is-rounded">
+          {{#if user.avatar}}
+          <img class="is-rounded" src="{{user.avatar}}" alt="{{user.name}}'s avatar" />
+          {{else}}
+          <i class="fas fa-user"></i>
+          {{/if}}
+        </div>
+        <h1 class="title is-2 has-text-white mt-4">{{user.name}}</h1>
+        <h2 class="subtitle is-4 has-text-white-ter">@{{user.memberName}}</h2>
+        {{#if user.isAdmin}}
+        <span class="tag is-warning is-large">
+          <i class="fas fa-crown mr-2"></i>Administrator
+        </span>
+        {{else}}
+        <span class="tag is-info is-large">
+          <i class="fas fa-user mr-2"></i>Member
+        </span>
+        {{/if}}
+      </div>
+    </div>
+  </section>
+
+  <!-- Profile Content -->
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <!-- Profile Card -->
+          <div class="card profile-card">
+            <header class="card-header">
+              <p class="card-header-title">
+                <span class="icon"><i class="fas fa-user-circle"></i></span>
+                <span>Profile Information</span>
+              </p>
+              <button class="card-header-icon" onclick="toggleEditMode()">
+                <span class="icon">
+                  <i class="fas fa-edit" id="editIcon"></i>
+                </span>
+              </button>
+            </header>
+            <div class="card-content">
+              <!-- Success/Error Messages -->
+              {{#if successMessage}}
+              <div class="notification is-success">
+                <button class="delete" onclick="this.parentElement.remove()"></button>
+                {{successMessage}}
+              </div>
+              {{/if}}
+              {{#if errorMessage}}
+              <div class="notification is-danger">
+                <button class="delete" onclick="this.parentElement.remove()"></button>
+                {{errorMessage}}
+              </div>
+              {{/if}}
+
+              <!-- View Mode -->
+              <div id="viewMode" class="view-mode">
+                <div class="info-item">
+                  <div class="level">
+                    <div class="level-left">
+                      <div class="level-item">
+                        <div>
+                          <p class="heading">Full Name</p>
+                          <p class="title is-6">{{user.name}}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="level-right">
+                      <div class="level-item">
+                        <span class="icon has-text-grey-light">
+                          <i class="fas fa-id-card"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="info-item">
+                  <div class="level">
+                    <div class="level-left">
+                      <div class="level-item">
+                        <div>
+                          <p class="heading">Username</p>
+                          <p class="title is-6">{{user.memberName}}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="level-right">
+                      <div class="level-item">
+                        <span class="icon has-text-grey-light">
+                          <i class="fas fa-at"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="info-item">
+                  <div class="level">
+                    <div class="level-left">
+                      <div class="level-item">
+                        <div>
+                          <p class="heading">Year of Birth</p>
+                          <p class="title is-6">{{user.YOB}}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="level-right">
+                      <div class="level-item">
+                        <span class="icon has-text-grey-light">
+                          <i class="fas fa-calendar-alt"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="info-item">
+                  <div class="level">
+                    <div class="level-left">
+                      <div class="level-item">
+                        <div>
+                          <p class="heading">Account Type</p>
+                          <p class="title is-6">
+                            {{#if user.isAdmin}}
+                            <span class="tag is-warning">Administrator</span>
+                            {{else}}
+                            <span class="tag is-info">Member</span>
+                            {{/if}}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="level-right">
+                      <div class="level-item">
+                        <span class="icon has-text-grey-light">
+                          {{#if user.isAdmin}}
+                          <i class="fas fa-crown"></i>
+                          {{else}}
+                          <i class="fas fa-user"></i>
+                          {{/if}}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="info-item">
+                  <div class="level">
+                    <div class="level-left">
+                      <div class="level-item">
+                        <div>
+                          <p class="heading">Member Since</p>
+                          <p class="title is-6">{{formatDate
+                            user.createdAt
+                            }}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="level-right">
+                      <div class="level-item">
+                        <span class="icon has-text-grey-light">
+                          <i class="fas fa-clock"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Edit Mode -->
+              <div id="editMode" class="edit-form">
+                <form action="/members/update-profile" method="POST">
+                  <div class="field">
+                    <label class="label">Full Name</label>
+                    <div class="control has-icons-left">
+                      <input class="input" type="text" name="name" value="{{user.name}}" required />
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-id-card"></i>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">Username</label>
+                    <div class="control has-icons-left">
+                      <input class="input" type="text" name="memberName" value="{{user.memberName}}" required />
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-at"></i>
+                      </span>
+                    </div>
+                    <p class="help">Username must be unique</p>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">Year of Birth</label>
+                    <div class="control has-icons-left">
+                      <input class="input" type="number" name="YOB" value="{{user.YOB}}" min="1950" max="2010"
+                        required />
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-calendar-alt"></i>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="field is-grouped">
+                    <div class="control">
+                      <button type="submit" class="button is-success">
+                        <span class="icon"><i class="fas fa-save"></i></span>
+                        <span>Save Changes</span>
+                      </button>
+                    </div>
+                    <div class="control">
+                      <button type="button" class="button is-light" onclick="toggleEditMode()">
+                        <span class="icon"><i class="fas fa-times"></i></span>
+                        <span>Cancel</span>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Change Password Card -->
+          <div class="card mt-5">
+            <header class="card-header">
+              <p class="card-header-title">
+                <span class="icon"><i class="fas fa-lock"></i></span>
+                <span>Change Password</span>
+              </p>
+              <button class="card-header-icon" onclick="togglePasswordForm()">
+                <span class="icon">
+                  <i class="fas fa-key" id="passwordIcon"></i>
+                </span>
+              </button>
+            </header>
+            <div class="card-content">
+              <div id="passwordForm" class="edit-form">
+                <form action="/members/change-password" method="POST">
+                  <div class="field">
+                    <label class="label">Current Password</label>
+                    <div class="control has-icons-left">
+                      <input class="input" type="password" name="currentPassword" required />
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">New Password</label>
+                    <div class="control has-icons-left">
+                      <input class="input" type="password" name="newPassword" minlength="6" required />
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-key"></i>
+                      </span>
+                    </div>
+                    <p class="help">Password must be at least 6 characters
+                      long</p>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">Confirm New Password</label>
+                    <div class="control has-icons-left">
+                      <input class="input" type="password" name="confirmPassword" minlength="6" required />
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-key"></i>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="field is-grouped">
+                    <div class="control">
+                      <button type="submit" class="button is-warning">
+                        <span class="icon"><i class="fas fa-key"></i></span>
+                        <span>Change Password</span>
+                      </button>
+                    </div>
+                    <div class="control">
+                      <button type="button" class="button is-light" onclick="togglePasswordForm()">
+                        <span class="icon"><i class="fas fa-times"></i></span>
+                        <span>Cancel</span>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div id="passwordPrompt">
+                <p class="has-text-grey">Click the key icon to change your
+                  password</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="card mt-5">
+            <header class="card-header">
+              <p class="card-header-title">
+                <span class="icon"><i class="fas fa-bolt"></i></span>
+                <span>Quick Actions</span>
+              </p>
+            </header>
+            <div class="card-content">
+              <div class="buttons">
+                <a href="/" class="button is-primary">
+                  <span class="icon"><i class="fas fa-home"></i></span>
+                  <span>Back to Home</span>
+                </a>
+                {{#if user.isAdmin}}
+                <a href="/admin" class="button is-info">
+                  <span class="icon"><i class="fas fa-cog"></i></span>
+                  <span>Admin Panel</span>
+                </a>
+                {{/if}}
+                <a href="/logout" class="button is-danger">
+                  <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                  <span>Logout</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {{else}}
+  <!-- Not logged in -->
+  <section class="hero is-medium is-light">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title">Access Denied</h1>
+        <h2 class="subtitle">You need to be logged in to view this page</h2>
+        <a href="/login" class="button is-primary is-large">
+          <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
+          <span>Login</span>
+        </a>
+      </div>
+    </div>
+  </section>
+  {{/if}}
+
+  <script>
+    function toggleEditMode() {
+      const viewMode = document.getElementById('viewMode');
+      const editMode = document.getElementById('editMode');
+      const editIcon = document.getElementById('editIcon');
+
+      if (editMode.classList.contains('is-active')) {
+        editMode.classList.remove('is-active');
+        viewMode.classList.remove('is-hidden');
+        editIcon.classList.remove('fa-times');
+        editIcon.classList.add('fa-edit');
+      } else {
+        editMode.classList.add('is-active');
+        viewMode.classList.add('is-hidden');
+        editIcon.classList.remove('fa-edit');
+        editIcon.classList.add('fa-times');
+      }
+    }
+
+    function togglePasswordForm() {
+      const passwordForm = document.getElementById('passwordForm');
+      const passwordPrompt = document.getElementById('passwordPrompt');
+      const passwordIcon = document.getElementById('passwordIcon');
+
+      if (passwordForm.classList.contains('is-active')) {
+        passwordForm.classList.remove('is-active');
+        passwordPrompt.style.display = 'block';
+        passwordIcon.classList.remove('fa-times');
+        passwordIcon.classList.add('fa-key');
+      } else {
+        passwordForm.classList.add('is-active');
+        passwordPrompt.style.display = 'none';
+        passwordIcon.classList.remove('fa-key');
+        passwordIcon.classList.add('fa-times');
+      }
+    }
+
+    // Form validation
+    document.addEventListener('DOMContentLoaded', function () {
+      const passwordForm = document.querySelector('form[action="/users/change-password"]');
+      if (passwordForm) {
+        passwordForm.addEventListener('submit', function (e) {
+          const newPassword = document.querySelector('input[name="newPassword"]').value;
+          const confirmPassword = document.querySelector('input[name="confirmPassword"]').value;
+
+          if (newPassword !== confirmPassword) {
+            e.preventDefault();
+            alert('New password and confirm password do not match!');
+            return false;
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

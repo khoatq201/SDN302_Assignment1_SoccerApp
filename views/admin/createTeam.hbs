@@ -1,0 +1,144 @@
+<section class="hero is-primary is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        <i class="fas fa-shield-alt"></i>
+        Create Team
+      </h1>
+      <h2 class="subtitle">
+        Add a new football team to the database
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <!-- Success/Error Messages -->
+    <script>
+      // Get URL parameters const urlParams = new
+      URLSearchParams(window.location.search); const success =
+        urlParams.get('success'); const error = urlParams.get('error'); if
+        (success) {
+        document.addEventListener('DOMContentLoaded', function () {
+          const notification = document.createElement('div'); notification.className
+            = 'notification is-success'; notification.innerHTML = ` <button
+      class="delete"></button> ${success} `;
+          document.querySelector('.container').insertBefore(notification,
+            document.querySelector('.columns')); // Auto hide after 5 seconds
+          setTimeout(() => { notification.remove(); }, 5000); // Delete button
+          functionality
+          notification.querySelector('.delete').addEventListener('click', () => {
+            notification.remove();
+          });
+        });
+      } if (error) {
+        document.addEventListener('DOMContentLoaded', function () {
+          const
+            notification = document.createElement('div'); notification.className =
+              'notification is-danger'; notification.innerHTML = ` <button
+      class="delete"></button> ${error} `;
+          document.querySelector('.container').insertBefore(notification,
+            document.querySelector('.columns')); // Auto hide after 5 seconds
+          setTimeout(() => { notification.remove(); }, 5000); // Delete button
+          functionality
+          notification.querySelector('.delete').addEventListener('click', () => {
+            notification.remove();
+          });
+        });
+      }
+    </script>
+
+    <div class="columns">
+      <!-- Form Column -->
+      <div class="column is-half">
+        <div class="box">
+          <h3 class="title is-4">Team Information</h3>
+
+          <form action="/admin/teams" method="POST">
+            <div class="field">
+              <label class="label">Team Name</label>
+              <div class="control has-icons-left">
+                <input class="input" type="text" name="teamName" placeholder="Enter team name" required />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-shield-alt"></i>
+                </span>
+              </div>
+              <p class="help">Enter the full name of the team</p>
+            </div>
+
+            <div class="field is-grouped">
+              <div class="control">
+                <button class="button is-primary" type="submit">
+                  <span class="icon">
+                    <i class="fas fa-plus"></i>
+                  </span>
+                  <span>Create Team</span>
+                </button>
+              </div>
+              <div class="control">
+                <a class="button is-light" href="/admin">
+                  <span class="icon">
+                    <i class="fas fa-arrow-left"></i>
+                  </span>
+                  <span>Cancel</span>
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Teams List Column -->
+      <div class="column is-half">
+        <div class="box">
+          <h3 class="title is-4">Existing Teams</h3>
+
+          {{#if teams.length}}
+          <div class="table-container">
+            <table class="table is-fullwidth is-striped">
+              <thead>
+                <tr>
+                  <th>Team Name</th>
+                  <th>Created</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                {{#each teams}}
+                <tr>
+                  <td>
+                    <span class="icon-text">
+                      <span class="icon">
+                        <i class="fas fa-shield-alt"></i>
+                      </span>
+                      <span>{{teamName}}</span>
+                    </span>
+                  </td>
+                  <td>
+                    {{#if createdAt}}
+                    {{formatDate createdAt}}
+                    {{else}}
+                    Just now
+                    {{/if}}
+                  </td>
+                </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+          {{else}}
+          <div class="notification is-info">
+            <div class="has-text-centered">
+              <i class="fas fa-info-circle fa-2x"></i>
+              <p class="title is-5 mt-3">No teams found</p>
+              <p class="subtitle is-6">Create your first team using the form
+                on the left.</p>
+            </div>
+          </div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

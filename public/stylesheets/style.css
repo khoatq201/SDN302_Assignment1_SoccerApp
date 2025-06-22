@@ -1,0 +1,169 @@
+/* Custom styles for Football Players app */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.hero.is-info {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.navbar.is-primary {
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
+
+.card-image img {
+  object-fit: cover;
+}
+
+/* Default player image styling */
+.image.is-4by3 {
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.default-player-img {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.default-player-img i {
+  font-size: 4rem;
+  color: #1976d2;
+  opacity: 0.7;
+}
+
+.notification .delete {
+  cursor: pointer;
+}
+
+/* Footer styling */
+.footer {
+  background-color: #363636;
+  color: #fff;
+  margin-top: 2rem;
+}
+
+.footer .content p {
+  color: #fff;
+}
+
+/* Thêm vào stylesheets/style.css */
+
+.default-player-img {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.default-player-img i {
+  font-size: 3rem;
+  color: #1976d2;
+}
+
+/* Card hover effects */
+.card {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Notification styles */
+.notification {
+  margin-bottom: 1rem;
+}
+
+.notification i {
+  margin-right: 0.5rem;
+}
+.player-detail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 4px solid white;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.default-player-img-large {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid white;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.default-player-img-large i {
+  color: #1976d2;
+}
+
+/* Hero gradient */
+.hero.is-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Box animations */
+.box {
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.box:hover {
+  transform: translateY(-2px);
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+  .hero .title.is-1 {
+    font-size: 2rem;
+  }
+
+  .hero .subtitle.is-3 {
+    font-size: 1.5rem;
+  }
+}
+/* Thêm vào CSS files */
+.button.is-danger {
+  background-color: #db4437;
+  border-color: #db4437;
+}
+
+.button.is-danger:hover {
+  background-color: #c23321;
+  border-color: #c23321;
+}
+
+.image.is-24x24 {
+  height: 24px;
+  width: 24px;
+}
+
+.image.is-24x24 img {
+  border-radius: 50%;
+}

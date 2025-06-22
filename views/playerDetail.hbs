@@ -1,0 +1,550 @@
+<section class="hero is-primary is-medium">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column is-3">
+          <figure class="image is-square">
+            {{#if player.image}}
+            <img src="{{player.image}}" alt="{{player.playerName}}" class="is-rounded player-detail-image" />
+            {{else}}
+            <div class="default-player-img-large">
+              <i class="fas fa-user-tie fa-5x"></i>
+            </div>
+            {{/if}}
+          </figure>
+        </div>
+        <div class="column is-9">
+          <div class="content has-text-white">
+            <h1 class="title is-1 has-text-white mb-4">
+              {{player.playerName}}
+              {{#if player.isCaptain}}
+              <span class="tag is-warning is-large ml-3">
+                <i class="fas fa-crown"></i>
+                <span class="ml-2">Captain</span>
+              </span>
+              {{/if}}
+            </h1>
+
+            {{#if player.team}}
+            <h2 class="subtitle is-3 has-text-white">
+              <i class="fas fa-shield-alt"></i>
+              <span class="ml-2">{{player.team.teamName}}</span>
+            </h2>
+            {{/if}}
+
+            <div class="level is-mobile">
+              <div class="level-left">
+                <div class="level-item">
+                  <div>
+                    <p class="heading has-text-white-ter">Market Value</p>
+                    <p class="title is-3 has-text-success">
+                      <i class="fas fa-dollar-sign"></i>
+                      {{player.cost}}M
+                    </p>
+                  </div>
+                </div>
+                <div class="level-item">
+                  <div>
+                    <p class="heading has-text-white-ter">Average Rating</p>
+                    <p class="title is-3 has-text-warning">
+                      <i class="fas fa-star"></i>
+                      {{#if averageRating}}
+                      {{averageRating}}/3
+                      {{else}}
+                      No ratings
+                      {{/if}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <!-- Main Content -->
+      <div class="column is-8">
+        <!-- Player Information -->
+        <div class="box">
+          <h3 class="title is-3">
+            <i class="fas fa-info-circle"></i>
+            Player Information
+          </h3>
+
+          <div class="content is-large">
+            <p>{{player.information}}</p>
+          </div>
+
+          <!-- Player Rating Stats -->
+          <div class="columns is-multiline mt-5">
+            <div class="column is-6">
+              <div class="notification is-warning is-light">
+                <div class="media">
+                  <div class="media-left">
+                    <span class="icon is-large has-text-warning">
+                      <i class="fas fa-star fa-2x"></i>
+                    </span>
+                  </div>
+                  <div class="media-content">
+                    <p class="title is-5">Average Rating</p>
+                    <p class="subtitle is-6">
+                      {{#if averageRating}}
+                      <span class="has-text-weight-bold">{{averageRating}}</span>
+                      out of 3 stars
+                      <br />
+                      <small class="has-text-grey">Based on
+                        {{commentCount}}
+                        review{{#if commentCount}}s{{/if}}</small>
+                      {{else}}
+                      <span class="has-text-grey">No ratings yet</span>
+                      {{/if}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="column is-6">
+              <div class="notification is-info is-light">
+                <div class="media">
+                  <div class="media-left">
+                    <span class="icon is-large has-text-info">
+                      <i class="fas fa-comments fa-2x"></i>
+                    </span>
+                  </div>
+                  <div class="media-content">
+                    <p class="title is-5">Total Reviews</p>
+                    <p class="subtitle is-6">
+                      <span class="has-text-weight-bold">{{commentCount}}</span>
+                      comment{{#if commentCount}}s{{/if}}
+                      <br />
+                      <small class="has-text-grey">
+                        {{#if commentCount}}
+                        Click below to read all reviews
+                        {{else}}
+                        Be the first to leave a review!
+                        {{/if}}
+                      </small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rating Breakdown (if has ratings) -->
+          {{#if averageRating}}
+          <div class="box has-background-light mt-4">
+            <h4 class="title is-5 mb-4">
+              <i class="fas fa-chart-bar"></i>
+              Rating Breakdown
+            </h4>
+            <div class="rating-stars">
+              <!-- SỬA: Logic đơn giản hơn dựa trên ratingLevel -->
+              {{#if ratingLevel}}
+              {{#ifEquals ratingLevel 3}}
+              <span class="icon has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="ml-2 has-text-weight-bold">Excellent ({{averageRating}}/3)</span>
+              {{else}}
+              {{#ifEquals ratingLevel 2}}
+              <span class="icon has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon has-text-grey-light"><i class="fas fa-star"></i></span>
+              <span class="ml-2 has-text-weight-bold">Good ({{averageRating}}/3)</span>
+              {{else}}
+              <span class="icon has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon has-text-grey-light"><i class="fas fa-star"></i></span>
+              <span class="icon has-text-grey-light"><i class="fas fa-star"></i></span>
+              <span class="ml-2 has-text-weight-bold">Average ({{averageRating}}/3)</span>
+              {{/ifEquals}}
+              {{/ifEquals}}
+              {{else}}
+              <!-- Fallback nếu không có ratingLevel -->
+              <span class="icon has-text-grey-light"><i class="fas fa-star"></i></span>
+              <span class="icon has-text-grey-light"><i class="fas fa-star"></i></span>
+              <span class="icon has-text-grey-light"><i class="fas fa-star"></i></span>
+              <span class="ml-2 has-text-weight-bold">No Rating</span>
+              {{/if}}
+            </div>
+          </div>
+          {{/if}}
+        </div>
+
+        <!-- Actions -->
+        <div class="box">
+          <h3 class="title is-4">
+            <i class="fas fa-cogs"></i>
+            Actions
+          </h3>
+
+          <div class="buttons">
+            <a href="/players/{{player._id}}/comments" class="button is-info is-large">
+              <span class="icon">
+                <i class="fas fa-comments"></i>
+              </span>
+              <span>View Comments ({{commentCount}})</span>
+            </a>
+
+            <button class="button is-success is-large" onclick="sharePlayer()" id="shareButton">
+              <span class="icon">
+                <i class="fas fa-share-alt"></i>
+              </span>
+              <span>Share Player</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="column is-4">
+        <!-- Quick Stats -->
+        <div class="box">
+          <h3 class="title is-4">
+            <i class="fas fa-chart-bar"></i>
+            Quick Stats
+          </h3>
+
+          <div class="field">
+            <label class="label">Player Name</label>
+            <div class="control">
+              <span class="tag is-primary is-large">{{player.playerName}}</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Team</label>
+            <div class="control">
+              <span class="tag is-info is-large">
+                <i class="fas fa-shield-alt"></i>
+                <span class="ml-1">{{player.team.teamName}}</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Market Value</label>
+            <div class="control">
+              <span class="tag is-success is-large">
+                <i class="fas fa-dollar-sign"></i>
+                <span class="ml-1">${{player.cost}}M</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Rating</label>
+            <div class="control">
+              {{#if averageRating}}
+              <span class="tag is-warning is-large">
+                <i class="fas fa-star"></i>
+                <span class="ml-1">{{averageRating}}/3</span>
+              </span>
+              {{else}}
+              <span class="tag is-light is-large">
+                <i class="fas fa-star"></i>
+                <span class="ml-1">No ratings</span>
+              </span>
+              {{/if}}
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Status</label>
+            <div class="control">
+              {{#if player.isCaptain}}
+              <span class="tag is-warning is-large">
+                <i class="fas fa-crown"></i>
+                <span class="ml-1">Captain</span>
+              </span>
+              {{else}}
+              <span class="tag is-light is-large">
+                <i class="fas fa-user"></i>
+                <span class="ml-1">Player</span>
+              </span>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="box">
+          <h3 class="title is-4">
+            <i class="fas fa-compass"></i>
+            Navigation
+          </h3>
+
+          <div class="buttons is-fullwidth">
+            <a href="/" class="button is-light is-fullwidth">
+              <span class="icon">
+                <i class="fas fa-arrow-left"></i>
+              </span>
+              <span>Back to Players</span>
+            </a>
+
+            <a href="/?team={{player.team._id}}" class="button is-primary is-fullwidth">
+              <span class="icon">
+                <i class="fas fa-users"></i>
+              </span>
+              <span>View Team Players</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Comments Preview -->
+        <div class="box">
+          <h3 class="title is-4">
+            <i class="fas fa-comments"></i>
+            Reviews & Comments
+          </h3>
+
+          <div class="content">
+            {{#if averageRating}}
+            <div class="has-text-centered mb-4">
+              <span class="title is-2 has-text-warning">{{averageRating}}</span>
+              <span class="subtitle is-4">/3</span>
+              <br />
+              <div class="rating-stars">
+                {{#if averageRating}}
+                {{#ifEquals ratingLevel 3}}
+                <span class="icon has-text-warning"><i class="fas fa-star"></i></span>
+                <span class="icon has-text-warning"><i class="fas fa-star"></i></span>
+                <span class="icon has-text-warning"><i class="fas fa-star"></i></span>
+                {{else}}
+                {{#ifEquals ratingLevel 2}}
+                <span class="icon has-text-warning"><i class="fas fa-star"></i></span>
+                <span class="icon has-text-warning"><i class="fas fa-star"></i></span>
+                <span class="icon has-text-grey-light"><i class="fas fa-star"></i></span>
+                {{else}}
+                {{#ifEquals ratingLevel 1}}
+                <span class="icon has-text-warning"><i class="fas fa-star"></i></span>
+                <span class="icon has-text-grey-light"><i class="fas fa-star"></i></span>
+                <span class="icon has-text-grey-light"><i class="fas fa-star"></i></span>
+                {{else}}
+                <!-- No rating -->
+                <span class="icon has-text-grey-light"><i class="fas fa-star"></i></span>
+                <span class="icon has-text-grey-light"><i class="fas fa-star"></i></span>
+                <span class="icon has-text-grey-light"><i class="fas fa-star"></i></span>
+                {{/ifEquals}}
+                {{/ifEquals}}
+                {{/ifEquals}}
+                {{/if}}
+              </div>
+              <p class="is-size-7 has-text-grey">Based on
+                {{commentCount}}
+                review{{#if commentCount}}s{{/if}}</p>
+            </div>
+            {{/if}}
+
+            <p class="subtitle is-6">
+              This player has
+              <strong>{{commentCount}}</strong>
+              review{{#if commentCount}}s{{/if}}.
+            </p>
+
+            {{#if commentCount}}
+            <a href="/players/{{player._id}}/comments" class="button is-info is-fullwidth">
+              <span class="icon">
+                <i class="fas fa-eye"></i>
+              </span>
+              <span>Read All Reviews</span>
+            </a>
+            {{else}}
+            <p class="has-text-grey">No reviews yet. Be the first to review!</p>
+            {{#if user}}
+            <a href="/players/{{player._id}}/comments" class="button is-success is-fullwidth">
+              <span class="icon">
+                <i class="fas fa-plus"></i>
+              </span>
+              <span>Write First Review</span>
+            </a>
+            {{/if}}
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .player-detail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 4px solid white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  .default-player-img-large {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    border-radius: 50%;
+    border: 4px solid white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  .default-player-img-large i {
+    color: #1976d2;
+  }
+
+  .hero.is-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .box {
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .box:hover {
+    transform: translateY(-2px);
+  }
+
+  .notification {
+    border-left: 4px solid;
+  }
+
+  .notification.is-light {
+    border-left-color: #dbdbdb;
+  }
+
+  /* Rating stars styling */
+  .rating-stars {
+    display: flex;
+    align-items: center;
+  }
+
+  .rating-stars .icon {
+    margin-right: 0.2rem;
+  }
+
+  /* Responsive design */
+  @media screen and (max-width: 768px) {
+    .hero .title.is-1 {
+      font-size: 2rem;
+    }
+
+    .hero .subtitle.is-3 {
+      font-size: 1.5rem;
+    }
+
+    .level-item {
+      margin-bottom: 1rem;
+    }
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    console.log('Player detail page loaded');
+  });
+  function sharePlayer() {
+    console.log('Share player clicked');
+
+    const playerName = '{{player.playerName}}';
+    const teamName = '{{player.team.teamName}}';
+    const cost = '{{player.cost}}';
+    const rating = '{{averageRating}}' || 'No rating';
+    const currentUrl = window.location.href;
+
+    const shareText = `Check out ${playerName} from ${teamName}!\nMarket Value: $${cost}M\nRating: ${rating}/3\n${currentUrl}`;
+
+    console.log('Share text:', shareText);
+
+    if (navigator.share) {
+      console.log('Using Web Share API');
+      navigator.share({
+        title: `${playerName} - Football Player`,
+        text: `Check out ${playerName} from ${teamName}!`,
+        url: currentUrl
+      }).then(() => {
+        console.log('Shared successfully');
+        showSimpleAlert('success', 'Shared successfully!');
+      }).catch((error) => {
+        console.log('Share cancelled or failed:', error);
+        if (error.name !== 'AbortError') {
+          copyToClipboardSimple(shareText);
+        }
+      });
+    } else {
+      console.log('Web Share not supported, copying to clipboard');
+      copyToClipboardSimple(shareText);
+    }
+  }
+
+  function copyToClipboardSimple(text) {
+    console.log('Copying to clipboard:', text);
+
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+
+    try {
+      textarea.select();
+      textarea.setSelectionRange(0, 99999); // For mobile
+
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textarea);
+
+      if (successful) {
+        console.log('Copy successful');
+        showSimpleAlert('success', 'Player info copied to clipboard!');
+      } else {
+        console.log('Copy failed');
+        showSimpleAlert('error', 'Copy failed. Please copy manually.');
+      }
+    } catch (error) {
+      console.error('Copy error:', error);
+      document.body.removeChild(textarea);
+      showSimpleAlert('error', 'Copy not supported. Please copy manually.');
+    }
+  }
+
+  function showSimpleAlert(type, message) {
+    const existing = document.querySelector('.simple-notification');
+    if (existing) {
+      existing.remove();
+    }
+
+    const alert = document.createElement('div');
+    alert.className = `notification is-${type} simple-notification`;
+    alert.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 300px;
+    border-radius: 6px;
+  `;
+
+    const icon = type === 'success' ? 'fas fa-check' :
+      type === 'error' ? 'fas fa-times' : 'fas fa-info';
+
+    alert.innerHTML = `
+    <button class="delete" onclick="this.parentElement.remove()"></button>
+    <span class="icon"><i class="${icon}"></i></span>
+    <span>${message}</span>
+  `;
+
+    document.body.appendChild(alert);
+    setTimeout(() => {
+      if (alert.parentElement) {
+        alert.remove();
+      }
+    }, 3000);
+  }
+
+</script>

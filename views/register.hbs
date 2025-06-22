@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Football Players</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #48c774 0%, #00d1b2 100%);
+            min-height: 100vh;
+        }
+
+        .register-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        .register-box {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .register-header {
+            background: linear-gradient(135deg, #48c774 0%, #00d1b2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .register-body {
+            padding: 2rem;
+        }
+
+        .register-footer {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .field:not(:last-child) {
+            margin-bottom: 1.5rem;
+        }
+
+        .button.is-success {
+            background: linear-gradient(135deg, #48c774 0%, #00d1b2 100%);
+            border: none;
+        }
+
+        .button.is-success:hover {
+            background: linear-gradient(135deg, #3ec46d 0%, #00c4a7 100%);
+        }
+
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape1 {
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape2 {
+            top: 25%;
+            right: 15%;
+            animation-delay: 7s;
+        }
+
+        .shape3 {
+            bottom: 15%;
+            left: 20%;
+            animation-delay: 14s;
+        }
+
+        .shape4 {
+            bottom: 25%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-30px) rotate(180deg);
+            }
+        }
+
+        .year-select {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Floating Background Shapes -->
+    <div class="floating-shapes">
+        <div class="shape shape1">
+            <i class="fas fa-user-plus fa-3x"></i>
+        </div>
+        <div class="shape shape2">
+            <i class="fas fa-star fa-2x"></i>
+        </div>
+        <div class="shape shape3">
+            <i class="fas fa-crown fa-2x"></i>
+        </div>
+        <div class="shape shape4">
+            <i class="fas fa-heart fa-2x"></i>
+        </div>
+    </div>
+
+    <div class="register-container">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-narrow">
+                    <div class="register-box">
+                        <!-- Register Header -->
+                        <div class="register-header">
+                            <div class="mb-5">
+                                <i class="fas fa-user-plus fa-3x"></i>
+                            </div>
+                            <h1 class="title is-3 has-text-white mb-4">Join Us!</h1>
+                            <p class="subtitle is-6 has-text-white-ter">Create your Football Players account</p>
+                        </div>
+
+                        <!-- Register Form -->
+                        <div class="register-body">
+                            <!-- Success/Error Messages -->
+                            <div id="message-container"></div>
+
+                            <form action="/register" method="POST" id="registerForm">
+                                <div class="field">
+                                    <label class="label">Username</label>
+                                    <div class="control has-icons-left">
+                                        <input class="input is-rounded" type="text" name="memberName"
+                                            placeholder="Enter your username" required minlength="3" maxlength="20">
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-user"></i>
+                                        </span>
+                                    </div>
+                                    <p class="help">Username must be 3-20 characters long</p>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">Full Name</label>
+                                    <div class="control has-icons-left">
+                                        <input class="input is-rounded" type="text" name="name"
+                                            placeholder="Enter your full name" required minlength="2">
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-id-card"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">Year of Birth</label>
+                                    <div class="control has-icons-left">
+                                        <div class="select is-fullwidth is-rounded">
+                                            <select name="YOB" required>
+                                                <option value="">Select your birth year</option>
+                                                <!-- Years will be populated by JavaScript -->
+                                            </select>
+                                        </div>
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">Password</label>
+                                    <div class="control has-icons-left">
+                                        <input class="input is-rounded" type="password" name="password"
+                                            placeholder="Enter your password" required minlength="6" id="password">
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-lock"></i>
+                                        </span>
+                                    </div>
+                                    <p class="help">Password must be at least 6 characters long</p>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">Confirm Password</label>
+                                    <div class="control has-icons-left">
+                                        <input class="input is-rounded" type="password" name="confirmPassword"
+                                            placeholder="Confirm your password" required id="confirmPassword">
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-lock"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <div class="control">
+                                        <label class="checkbox">
+                                            <input type="checkbox" name="agreeTerms" required>
+                                            <span class="ml-2">I agree to the <a href="/terms"
+                                                    class="has-text-success">Terms of Service</a> and <a href="/privacy"
+                                                    class="has-text-success">Privacy Policy</a></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <div class="control">
+                                        <button class="button is-success is-fullwidth is-rounded" type="submit">
+                                            <span class="icon">
+                                                <i class="fas fa-user-plus"></i>
+                                            </span>
+                                            <span>Create Account</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="field mt-4">
+                                    <div class="control">
+                                        <a href="/auth/google" class="button is-danger is-fullwidth">
+                                            <span class="icon">
+                                                <i class="fab fa-google"></i>
+                                            </span>
+                                            <span>Sign up with Google</span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- THÊM: Divider -->
+                                <div class="field mt-4 mb-4">
+                                    <div class="has-text-centered">
+                                        <span class="has-text-grey-light">── OR ──</span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Register Footer -->
+                        <div class="register-footer">
+                            <p class="has-text-grey-dark">
+                                Already have an account?
+                                <a href="/login" class="has-text-success">
+                                    <strong>Sign in here</strong>
+                                </a>
+                            </p>
+                            <hr class="my-4">
+                            <div class="buttons is-centered">
+                                <a href="/" class="button is-light is-small">
+                                    <span class="icon">
+                                        <i class="fas fa-home"></i>
+                                    </span>
+                                    <span>Back to Home</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Populate year dropdown
+            const yearSelect = document.querySelector('select[name="YOB"]');
+            const currentYear = new Date().getFullYear();
+            for (let year = currentYear; year >= 1950; year--) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            }
+
+            // Get URL parameters for success/error messages
+            const urlParams = new URLSearchParams(window.location.search);
+            const success = urlParams.get('success');
+            const error = urlParams.get('error');
+            const messageContainer = document.getElementById('message-container');
+
+            if (success) {
+                messageContainer.innerHTML = `
+                    <div class="notification is-success is-light">
+                        <button class="delete"></button>
+                        <i class="fas fa-check-circle"></i>
+                        ${success}
+                    </div>
+                `;
+            }
+
+            if (error) {
+                messageContainer.innerHTML = `
+                    <div class="notification is-danger is-light">
+                        <button class="delete"></button>
+                        <i class="fas fa-exclamation-circle"></i>
+                        ${error}
+                    </div>
+                `;
+            }
+
+            // Auto-hide notifications
+            const notifications = document.querySelectorAll('.notification');
+            notifications.forEach(notification => {
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.remove();
+                    }
+                }, 7000);
+
+                const deleteBtn = notification.querySelector('.delete');
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', () => {
+                        notification.remove();
+                    });
+                }
+            });
+
+            // Form validation
+            const registerForm = document.getElementById('registerForm');
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+
+            registerForm.addEventListener('submit', function (e) {
+                const memberName = document.querySelector('input[name="memberName"]').value;
+                const name = document.querySelector('input[name="name"]').value;
+                const yob = document.querySelector('select[name="YOB"]').value;
+                const passwordValue = password.value;
+                const confirmPasswordValue = confirmPassword.value;
+                const agreeTerms = document.querySelector('input[name="agreeTerms"]').checked;
+
+                // Check if all fields are filled
+                if (!memberName || !name || !yob || !passwordValue || !confirmPasswordValue) {
+                    e.preventDefault();
+                    showMessage('Please fill in all fields', 'warning');
+                    return;
+                }
+
+                // Check password match
+                if (passwordValue !== confirmPasswordValue) {
+                    e.preventDefault();
+                    showMessage('Passwords do not match', 'danger');
+                    return;
+                }
+
+                // Check password length
+                if (passwordValue.length < 6) {
+                    e.preventDefault();
+                    showMessage('Password must be at least 6 characters long', 'warning');
+                    return;
+                }
+
+                // Check terms agreement
+                if (!agreeTerms) {
+                    e.preventDefault();
+                    showMessage('Please agree to the Terms of Service and Privacy Policy', 'warning');
+                    return;
+                }
+            });
+
+            function showMessage(message, type) {
+                messageContainer.innerHTML = `
+                    <div class="notification is-${type} is-light">
+                        <button class="delete"></button>
+                        <i class="fas fa-exclamation-triangle"></i>
+                        ${message}
+                    </div>
+                `;
+
+                // Auto-hide after 5 seconds
+                setTimeout(() => {
+                    const notification = messageContainer.querySelector('.notification');
+                    if (notification) {
+                        notification.remove();
+                    }
+                }, 5000);
+
+                // Delete button functionality
+                const deleteBtn = messageContainer.querySelector('.delete');
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', () => {
+                        messageContainer.innerHTML = '';
+                    });
+                }
+            }
+
+            // Password confirmation real-time validation
+            confirmPassword.addEventListener('input', function () {
+                if (this.value !== password.value) {
+                    this.classList.add('is-danger');
+                    this.classList.remove('is-success');
+                } else {
+                    this.classList.add('is-success');
+                    this.classList.remove('is-danger');
+                }
+            });
+
+            // Input focus effects
+            const inputs = document.querySelectorAll('.input, .select select');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function () {
+                    this.parentNode.classList.add('is-focused');
+                });
+
+                input.addEventListener('blur', function () {
+                    this.parentNode.classList.remove('is-focused');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

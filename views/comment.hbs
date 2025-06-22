@@ -1,0 +1,1010 @@
+<!-- Player Header Section -->
+<section class="hero is-info is-medium">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column is-2">
+          <figure class="image is-128x128 mx-auto">
+            {{#if player.image}}
+              <img
+                src="{{player.image}}"
+                alt="{{player.playerName}}"
+                class="is-rounded player-comment-image"
+              />
+            {{else}}
+              <div class="default-player-img-comment">
+                <i class="fas fa-user-tie fa-3x"></i>
+              </div>
+            {{/if}}
+          </figure>
+        </div>
+        <div class="column is-10">
+          <div class="content has-text-white">
+            <h1 class="title is-2 has-text-white mb-3">
+              {{player.playerName}}
+              {{#if player.isCaptain}}
+                <span class="tag is-warning is-large ml-2">
+                  <i class="fas fa-crown"></i>
+                  <span class="ml-1">Captain</span>
+                </span>
+              {{/if}}
+            </h1>
+
+            {{#if player.team}}
+              <h2 class="subtitle is-4 has-text-white">
+                <i class="fas fa-shield-alt"></i>
+                <span class="ml-2">{{player.team.teamName}}</span>
+              </h2>
+            {{/if}}
+
+            <div class="level is-mobile">
+              <div class="level-left">
+                <div class="level-item">
+                  <div>
+                    <p class="heading has-text-white-ter">Total Reviews</p>
+                    <p class="title is-4 has-text-white">
+                      <i class="fas fa-comments"></i>
+                      {{commentCount}}
+                    </p>
+                  </div>
+                </div>
+                <div class="level-item">
+                  <div>
+                    <p class="heading has-text-white-ter">Average Rating</p>
+                    <p class="title is-4 has-text-warning">
+                      <i class="fas fa-star"></i>
+                      {{#if averageRating}}
+                        {{averageRating}}/3
+                      {{else}}
+                        No ratings
+                      {{/if}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <!-- Hiển thị thông báo -->
+    {{#if successMessage}}
+      <div class="notification is-success">
+        <button
+          class="delete"
+          onclick="this.parentElement.style.display='none'"
+        ></button>
+        <strong>Success!</strong>
+        {{successMessage}}
+      </div>
+    {{/if}}
+
+    {{#if errorMessage}}
+      <div class="notification is-danger">
+        <button
+          class="delete"
+          onclick="this.parentElement.style.display='none'"
+        ></button>
+        <strong>Error!</strong>
+        {{errorMessage}}
+      </div>
+    {{/if}}
+
+    <div class="columns">
+      <!-- Comments List - THAY ĐỔI PHẦN NÀY -->
+      <div class="column is-8">
+        <!-- Navigation -->
+        <div class="level mb-5">
+          <div class="level-left">
+            <div class="level-item">
+              <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                  <li><a href="/">Home</a></li>
+                  <li><a
+                      href="/players/{{player._id}}"
+                    >{{player.playerName}}</a></li>
+                  <li class="is-active"><a
+                      href="#"
+                      aria-current="page"
+                    >Comments</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <a href="/players/{{player._id}}" class="button is-light">
+                <span class="icon">
+                  <i class="fas fa-arrow-left"></i>
+                </span>
+                <span>Back to Player</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comments Header -->
+        <div class="box">
+          <div class="level">
+            <div class="level-left">
+              <div class="level-item">
+                <div>
+                  <h2 class="title is-4">
+                    <i class="fas fa-comments mb-5"></i>
+                    Reviews & Comments
+                  </h2>
+                  <p class="subtitle is-6">
+                    {{commentCount}}
+                    review{{#if commentCount}}s{{/if}}
+                    for
+                    {{player.playerName}}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                {{#if averageRating}}
+                  <div class="has-text-centered">
+                    <span
+                      class="title is-3 has-text-warning"
+                    >{{averageRating}}</span>
+                    <span class="subtitle is-5">/3</span>
+                    <br />
+                    <div class="rating-stars">
+                      {{#if (eq ratingLevel 3)}}
+                        <span class="icon has-text-warning"><i
+                            class="fas fa-star"
+                          ></i></span>
+                        <span class="icon has-text-warning"><i
+                            class="fas fa-star"
+                          ></i></span>
+                        <span class="icon has-text-warning"><i
+                            class="fas fa-star"
+                          ></i></span>
+                      {{else if (eq ratingLevel 2)}}
+                        <span class="icon has-text-warning"><i
+                            class="fas fa-star"
+                          ></i></span>
+                        <span class="icon has-text-warning"><i
+                            class="fas fa-star"
+                          ></i></span>
+                        <span class="icon has-text-grey-light"><i
+                            class="fas fa-star"
+                          ></i></span>
+                      {{else if (eq ratingLevel 1)}}
+                        <span class="icon has-text-warning"><i
+                            class="fas fa-star"
+                          ></i></span>
+                        <span class="icon has-text-grey-light"><i
+                            class="fas fa-star"
+                          ></i></span>
+                        <span class="icon has-text-grey-light"><i
+                            class="fas fa-star"
+                          ></i></span>
+                      {{/if}}
+                    </div>
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comments List -->
+        {{#if comments.length}}
+          <div class="comments-container">
+            {{#each comments}}
+              <div class="box comment-item {{#if isUserComment}}has-background-info-light{{/if}}">
+                <article class="media">
+                  <figure class="media-left">
+                    <p class="image is-48x48">
+                      <div class="default-avatar">
+                        <i class="fas fa-user"></i>
+                      </div>
+                    </p>
+                  </figure>
+                  <div class="media-content">
+                    <div class="content">
+                      <div class="level">
+                        <div class="level-left">
+                          <div class="level-item">
+                            <div>
+                              <strong>{{author.name}}</strong>
+                              <small class="has-text-grey ml-2">@{{author.memberName}}</small>
+                              {{#if isUserComment}}
+                                <span class="tag is-info is-small ml-2">Your Comment</span>
+                              {{/if}}
+                              <br />
+                              <small class="has-text-grey">{{formatDate createdAt}}</small>
+                              <!-- THÊM: Hiển thị nếu đã edit -->
+                              {{#unless (eq createdAt updatedAt)}}
+                                <small class="has-text-info ml-2">
+                                  <i class="fas fa-edit"></i> Edited {{formatDate updatedAt}}
+                                </small>
+                              {{/unless}}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="level-right">
+                          <div class="level-item">
+                            <div class="rating-display">
+                              {{#if (eq rating 3)}}
+                                <span class="icon has-text-warning"><i
+                                    class="fas fa-star"
+                                  ></i></span>
+                                <span class="icon has-text-warning"><i
+                                    class="fas fa-star"
+                                  ></i></span>
+                                <span class="icon has-text-warning"><i
+                                    class="fas fa-star"
+                                  ></i></span>
+                                <span
+                                  class="tag is-success is-small ml-2"
+                                >Excellent</span>
+                              {{else if (eq rating 2)}}
+                                <span class="icon has-text-warning"><i
+                                    class="fas fa-star"
+                                  ></i></span>
+                                <span class="icon has-text-warning"><i
+                                    class="fas fa-star"
+                                  ></i></span>
+                                <span class="icon has-text-grey-light"><i
+                                    class="fas fa-star"
+                                  ></i></span>
+                                <span
+                                  class="tag is-info is-small ml-2"
+                                >Good</span>
+                              {{else}}
+                                <span class="icon has-text-warning"><i
+                                    class="fas fa-star"
+                                  ></i></span>
+                                <span class="icon has-text-grey-light"><i
+                                    class="fas fa-star"
+                                  ></i></span>
+                                <span class="icon has-text-grey-light"><i
+                                    class="fas fa-star"
+                                  ></i></span>
+                                <span
+                                  class="tag is-warning is-small ml-2"
+                                >Average</span>
+                              {{/if}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <!-- THÊM: Edit form (hidden by default) -->
+                      {{#if isUserComment}}
+                        <div id="editForm_{{_id}}" class="edit-comment-form" style="display: none;">
+                          <form action="/members/comments/{{../player._id}}/{{_id}}/edit" method="POST">
+                            <div class="field">
+                              <label class="label is-small">Edit Rating</label>
+                              <div class="control">
+                                <div class="select is-small">
+                                  <select name="rating" required>
+                                    <option value="3" {{#if (eq rating 3)}}selected{{/if}}>⭐⭐⭐ Excellent</option>
+                                    <option value="2" {{#if (eq rating 2)}}selected{{/if}}>⭐⭐ Good</option>
+                                    <option value="1" {{#if (eq rating 1)}}selected{{/if}}>⭐ Average</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="field">
+                              <label class="label is-small">Edit Comment</label>
+                              <div class="control">
+                                <textarea class="textarea is-small" name="content" maxlength="500" rows="3" required>{{content}}</textarea>
+                              </div>
+                            </div>
+                            <div class="field is-grouped">
+                              <div class="control">
+                                <button type="submit" class="button is-success is-small">
+                                  <span class="icon"><i class="fas fa-save"></i></span>
+                                  <span>Save Changes</span>
+                                </button>
+                              </div>
+                              <div class="control">
+                                <button type="button" class="button is-light is-small" onclick="toggleEditForm('{{_id}}')">
+                                  <span class="icon"><i class="fas fa-times"></i></span>
+                                  <span>Cancel</span>
+                                </button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      {{/if}}
+
+                      <!-- Comment content (hidden when editing) -->
+                      <div id="commentContent_{{_id}}">
+                        <p class="mt-3">{{content}}</p>
+                      </div>
+
+                      <!-- THÊM: Action buttons for comment owner -->
+                      {{#if isUserComment}}
+                        <div class="level mt-3">
+                          <div class="level-left">
+                            <div class="level-item">
+                              <div class="buttons">
+                                <!-- Edit button - chỉ hiện nếu chưa edit -->
+                                {{#if canEdit}}
+                                  <button class="button is-info is-small" onclick="toggleEditForm('{{_id}}')">
+                                    <span class="icon"><i class="fas fa-edit"></i></span>
+                                    <span>Edit</span>
+                                  </button>
+                                {{else}}
+                                  <span class="tag is-light is-small">
+                                    <i class="fas fa-lock"></i>
+                                    <span class="ml-1">Already edited</span>
+                                  </span>
+                                {{/if}}
+                                
+                                {{!-- <!-- Delete button -->
+                                <button class="button is-danger is-small" onclick="confirmDelete('{{_id}}', '{{../player._id}}')">
+                                  <span class="icon"><i class="fas fa-trash"></i></span>
+                                  <span>Delete</span>
+                                </button> --}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      {{/if}}
+                    </div>
+                  </div>
+                </article>
+              </div>
+            {{/each}}
+          </div>
+        {{else}}
+          <div class="box">
+            <div class="notification is-info is-light">
+              <div class="has-text-centered">
+                <i class="fas fa-comments fa-3x mb-3"></i>
+                <p class="title is-5">No comments yet</p>
+                <p class="subtitle is-6">Be the first to share your thoughts
+                  about
+                  {{player.playerName}}!</p>
+              </div>
+            </div>
+          </div>
+        {{/if}}
+      </div>
+
+      <!-- Add Comment Sidebar -->
+      <div class="column is-4">
+        {{#if user}}
+          {{#if userHasCommented}}
+            <!-- User đã comment -->
+            <div class="box">
+              <div class="notification is-info">
+                <div class="has-text-centered">
+                  <i class="fas fa-check-circle fa-2x mb-3"></i>
+                  <p class="title is-6">Already Reviewed</p>
+                  <p class="subtitle is-7 mb-4">You have already reviewed this
+                    player. Each member can only comment once per player.</p>
+                </div>
+              </div>
+            </div>
+          {{else}}
+            <!-- Add Comment Form -->
+            <div class="box">
+              <h3 class="title is-5">
+                <i class="fas fa-edit"></i>
+                Write a Review
+              </h3>
+
+              <!-- THAY ĐỔI: Sử dụng form action thay vì AJAX -->
+              <form
+                action="/members/comments/{{player._id}}"
+                method="POST"
+                id="commentForm"
+              >
+                <!-- Rating Selection -->
+                <div class="field">
+                  <label class="label">Your Rating</label>
+                  <div class="control">
+                    <div class="rating-input">
+                      <input
+                        type="radio"
+                        id="star3"
+                        name="rating"
+                        value="3"
+                        required
+                      />
+                      <label for="star3" class="star-label">
+                        <i class="fas fa-star"></i>
+                        <span class="rating-text">Excellent</span>
+                      </label>
+
+                      <input
+                        type="radio"
+                        id="star2"
+                        name="rating"
+                        value="2"
+                        required
+                      />
+                      <label for="star2" class="star-label">
+                        <i class="fas fa-star"></i>
+                        <span class="rating-text">Good</span>
+                      </label>
+
+                      <input
+                        type="radio"
+                        id="star1"
+                        name="rating"
+                        value="1"
+                        required
+                      />
+                      <label for="star1" class="star-label">
+                        <i class="fas fa-star"></i>
+                        <span class="rating-text">Average</span>
+                      </label>
+                    </div>
+                  </div>
+                  <p class="help">Select your rating for this player</p>
+                </div>
+
+                <!-- Comment Content -->
+                <div class="field">
+                  <label class="label">Your Comment</label>
+                  <div class="control">
+                    <textarea
+                      class="textarea"
+                      name="content"
+                      placeholder="Share your thoughts about {{player.playerName}}..."
+                      rows="5"
+                      maxlength="500"
+                      required
+                    ></textarea>
+                  </div>
+                  <p class="help">
+                    <span id="charCount">0</span>/500 characters
+                  </p>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="field">
+                  <div class="control">
+                    <button
+                      class="button is-primary is-fullwidth"
+                      type="submit"
+                    >
+                      <span class="icon">
+                        <i class="fas fa-paper-plane"></i>
+                      </span>
+                      <span>Submit Review</span>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          {{/if}}
+        {{else}}
+          <!-- Login Required - giữ nguyên -->
+          <div class="box">
+            <div class="notification is-warning">
+              <div class="has-text-centered">
+                <i class="fas fa-lock fa-2x mb-3"></i>
+                <p class="title is-6">Login Required</p>
+                <p class="subtitle is-7 mb-4">You need to be logged in to write
+                  a review</p>
+                <div class="buttons is-centered">
+                  <a href="/login" class="button is-primary">
+                    <span class="icon">
+                      <i class="fas fa-sign-in-alt"></i>
+                    </span>
+                    <span>Login</span>
+                  </a>
+                  <a href="/register" class="button is-success">
+                    <span class="icon">
+                      <i class="fas fa-user-plus"></i>
+                    </span>
+                    <span>Register</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {{/if}}
+
+        <!-- Player Quick Info -->
+        <div class="box">
+          <h3 class="title is-5">
+            <i class="fas fa-info-circle"></i>
+            Player Info
+          </h3>
+
+          <div class="content">
+            <div class="field">
+              <label class="label is-small">Name</label>
+              <span class="tag is-primary">{{player.playerName}}</span>
+            </div>
+
+            <div class="field">
+              <label class="label is-small">Team</label>
+              <span class="tag is-info">{{player.team.teamName}}</span>
+            </div>
+
+            <div class="field">
+              <label class="label is-small">Value</label>
+              <span class="tag is-success">${{player.cost}}M</span>
+            </div>
+
+            {{#if player.isCaptain}}
+              <div class="field">
+                <label class="label is-small">Status</label>
+                <span class="tag is-warning">
+                  <i class="fas fa-crown"></i>
+                  <span class="ml-1">Captain</span>
+                </span>
+              </div>
+            {{/if}}
+          </div>
+
+          <div class="buttons is-fullwidth">
+            <a
+              href="/players/{{player._id}}"
+              class="button is-light is-fullwidth"
+            >
+              <span class="icon">
+                <i class="fas fa-user"></i>
+              </span>
+              <span>View Profile</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Rating Summary (if has ratings) -->
+        {{#if averageRating}}
+          <div class="box">
+            <h3 class="title is-5">
+              <i class="fas fa-chart-line"></i>
+              Rating Summary
+            </h3>
+
+            <div class="content has-text-centered">
+              <div class="rating-summary">
+                <span
+                  class="title is-2 has-text-warning"
+                >{{averageRating}}</span>
+                <span class="subtitle is-4">/3</span>
+                <br />
+                <div class="rating-stars mb-3">
+                  {{#if (eq ratingLevel 3)}}
+                    <span class="icon has-text-warning is-large"><i
+                        class="fas fa-star"
+                      ></i></span>
+                    <span class="icon has-text-warning is-large"><i
+                        class="fas fa-star"
+                      ></i></span>
+                    <span class="icon has-text-warning is-large"><i
+                        class="fas fa-star"
+                      ></i></span>
+                    <br />
+                    <span class="tag is-success">Excellent Player</span>
+                  {{else if (eq ratingLevel 2)}}
+                    <span class="icon has-text-warning is-large"><i
+                        class="fas fa-star"
+                      ></i></span>
+                    <span class="icon has-text-warning is-large"><i
+                        class="fas fa-star"
+                      ></i></span>
+                    <span class="icon has-text-grey-light is-large"><i
+                        class="fas fa-star"
+                      ></i></span>
+                    <br />
+                    <span class="tag is-info">Good Player</span>
+                  {{else if (eq ratingLevel 1)}}
+                    <span class="icon has-text-warning is-large"><i
+                        class="fas fa-star"
+                      ></i></span>
+                    <span class="icon has-text-grey-light is-large"><i
+                        class="fas fa-star"
+                      ></i></span>
+                    <span class="icon has-text-grey-light is-large"><i
+                        class="fas fa-star"
+                      ></i></span>
+                    <br />
+                    <span class="tag is-warning">Average Player</span>
+                  {{/if}}
+                </div>
+                <p class="is-size-7 has-text-grey">Based on
+                  {{commentCount}}
+                  review{{#if commentCount}}s{{/if}}</p>
+              </div>
+            </div>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CSS giữ nguyên -->
+<style>
+  /* Comment page specific styles */
+  .player-comment-image {
+    width: 128px;
+    height: 128px;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .default-player-img-comment {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .default-player-img-comment i {
+    color: #1976d2;
+  }
+
+  .default-avatar {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    color: #6c757d;
+  }
+
+  .comment-item {
+    margin-bottom: 1rem;
+    transition: transform 0.2s ease;
+  }
+
+  .comment-item:hover {
+    transform: translateY(-2px);
+  }
+
+  .rating-display {
+    display: flex;
+    align-items: center;
+  }
+
+  .rating-display .icon {
+    margin-right: 0.2rem;
+  }
+
+  /* Rating Input Styles */
+  .rating-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .rating-input input[type="radio"] {
+    display: none;
+  }
+
+  .star-label {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+  }
+
+  .star-label:hover {
+    border-color: #ffd700;
+    background: #fffbf0;
+    transform: translateX(5px);
+  }
+
+  .star-label i {
+    color: #ddd;
+    margin-right: 0.5rem;
+    transition: color 0.3s ease;
+  }
+
+  .star-label:hover i {
+    color: #ffd700;
+  }
+
+  .rating-input input[type="radio"]:checked + .star-label {
+    border-color: #ffd700;
+    background: #fffbf0;
+  }
+
+  .rating-input input[type="radio"]:checked + .star-label i {
+    color: #ffd700;
+  }
+
+  .rating-text {
+    font-weight: 500;
+  }
+
+  /* Character counter */
+  #charCount {
+    font-weight: bold;
+  }
+
+  /* Comments container */
+  .comments-container {
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+  }
+
+  .comments-container::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .comments-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+
+  .comments-container::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border-radius: 3px;
+  }
+
+  .comments-container::-webkit-scrollbar-thumb:hover {
+    background: #a0a0a0;
+  }
+
+  /* Rating Summary */
+  .rating-summary {
+    padding: 1rem;
+    background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+    border-radius: 8px;
+    border: 2px solid #ffd700;
+  }
+
+  .rating-stars {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  /* THÊM: Edit comment form styles */
+  .edit-comment-form {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    margin-top: 1rem;
+  }
+
+  .comment-item.has-background-info-light {
+    border-left: 4px solid #3e8ed0;
+  }
+
+  .comment-item.has-background-info-light .default-avatar {
+    background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+    color: #0c5460;
+  }
+
+  /* Edit form specific styles */
+  .edit-comment-form .textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .edit-comment-form .select select {
+    font-size: 0.875rem;
+  }
+
+  /* Button styles for edit actions */
+  .buttons .button.is-small {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+  }
+
+  /* Tag styles for edit status */
+  .tag.is-light.is-small {
+    background-color: #f5f5f5;
+    color: #6c757d;
+  }
+
+  /* Responsive adjustments */
+  @media screen and (max-width: 768px) {
+    .edit-comment-form {
+      padding: 0.75rem;
+    }
+    
+    .buttons {
+      flex-wrap: wrap;
+    }
+    
+    .buttons .button {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  /* Animation for form toggle */
+  .edit-comment-form {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive design */
+  @media screen and (max-width: 768px) {
+    .hero .title.is-2 {
+      font-size: 1.5rem;
+    }
+
+    .hero .subtitle.is-4 {
+      font-size: 1.2rem;
+    }
+
+    .level-item {
+      margin-bottom: 0.5rem;
+    }
+
+    .comments-container {
+      max-height: 400px;
+    }
+
+    .rating-stars .icon.is-large {
+      font-size: 1.5rem !important;
+    }
+  }
+
+  /* Animation for new comments (for future use) */
+  @keyframes slideInUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .comment-item.new {
+    animation: slideInUp 0.5s ease-out;
+  }
+</style>
+
+<!-- JavaScript đơn giản hơn - không có AJAX -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  // Character counter for textarea
+  const textarea = document.querySelector('textarea[name="content"]');
+  const charCount = document.getElementById('charCount');
+  
+  if (textarea && charCount) {
+    textarea.addEventListener('input', function() {
+      const currentLength = this.value.length;
+      charCount.textContent = currentLength;
+      
+      // Change color based on character count
+      if (currentLength > 450) {
+        charCount.classList.add('has-text-danger');
+        charCount.classList.remove('has-text-warning');
+      } else if (currentLength > 400) {
+        charCount.classList.remove('has-text-danger');
+        charCount.classList.add('has-text-warning');
+      } else {
+        charCount.classList.remove('has-text-danger', 'has-text-warning');
+      }
+    });
+  }
+
+  // Form validation before submit
+  const commentForm = document.getElementById('commentForm');
+  if (commentForm) {
+    commentForm.addEventListener('submit', function(e) {
+      const rating = document.querySelector('input[name="rating"]:checked');
+      const content = document.querySelector('textarea[name="content"]').value;
+      
+      // Basic validation
+      if (!rating) {
+        alert('Please select a rating');
+        e.preventDefault();
+        return false;
+      }
+      
+      if (!content.trim()) {
+        alert('Please enter a comment');
+        e.preventDefault();
+        return false;
+      }
+      
+      if (content.length > 500) {
+        alert('Comment is too long (max 500 characters)');
+        e.preventDefault();
+        return false;
+      }
+      
+      // Show loading state
+      const submitButton = this.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      submitButton.innerHTML = '<span class="icon"><i class="fas fa-spinner fa-spin"></i></span><span>Submitting...</span>';
+      
+      return true;
+    });
+  }
+
+  // Add visual feedback for rating selection
+  const ratingInputs = document.querySelectorAll('input[name="rating"]');
+  ratingInputs.forEach(input => {
+    input.addEventListener('change', function() {
+      const ratingValue = this.value;
+      const submitButton = document.querySelector('#commentForm button[type="submit"]');
+      
+      if (submitButton) {
+        submitButton.classList.remove('is-primary', 'is-success', 'is-info', 'is-warning');
+        
+        if (ratingValue === '3') {
+          submitButton.classList.add('is-success');
+          submitButton.innerHTML = '<span class="icon"><i class="fas fa-paper-plane"></i></span><span>Submit Excellent Review</span>';
+        } else if (ratingValue === '2') {
+          submitButton.classList.add('is-info');
+          submitButton.innerHTML = '<span class="icon"><i class="fas fa-paper-plane"></i></span><span>Submit Good Review</span>';
+        } else {
+          submitButton.classList.add('is-warning');
+          submitButton.innerHTML = '<span class="icon"><i class="fas fa-paper-plane"></i></span><span>Submit Average Review</span>';
+        }
+      }
+    });
+  });
+
+  // Auto-hide notifications after 5 seconds
+// SỬA: Chỉ auto-hide SUCCESS/ERROR messages, KHÔNG hide sidebar notifications
+  const messageNotifications = document.querySelectorAll('.notification.is-success, .notification.is-danger');
+  messageNotifications.forEach(notification => {
+    setTimeout(() => {
+      if (notification.parentElement) {
+        notification.style.display = 'none';
+      }
+    }, 5000);
+  });
+});
+
+// THÊM: Toggle edit form function
+function toggleEditForm(commentId) {
+  const editForm = document.getElementById(`editForm_${commentId}`);
+  const commentContent = document.getElementById(`commentContent_${commentId}`);
+  
+  console.log('Toggling edit form for comment:', commentId);
+  
+  if (editForm.style.display === 'none' || editForm.style.display === '') {
+    editForm.style.display = 'block';
+    commentContent.style.display = 'none';
+  } else {
+    editForm.style.display = 'none';
+    commentContent.style.display = 'block';
+  }
+}
+
+// THÊM: Confirm delete function
+function confirmDelete(commentId, playerId) {
+  if (confirm('Are you sure you want to delete this comment? This action cannot be undone.')) {
+    const deleteForm = document.getElementById('deleteForm');
+    deleteForm.action = `/members/comments/${playerId}/${commentId}/delete`;
+    deleteForm.submit();
+  }
+}
+</script>

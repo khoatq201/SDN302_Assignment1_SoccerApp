@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - Admin Panel</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/admin.css">
+</head>
+
+<body>
+    <div class="admin-layout">
+        <!-- Admin Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar-header">
+                <h1 class="title is-4 has-text-white">
+                    <i class="fas fa-cog"></i>
+                    Admin Panel
+                </h1>
+            </div>
+
+            <div class="admin-sidebar-content">
+                <p class="menu-label has-text-white-ter">
+                    Dashboard
+                </p>
+                <ul class="menu-list">
+                    <li>
+                        <a href="/admin" class="{{#ifEquals currentPage 'dashboard'}}is-active{{/ifEquals}}">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <p class="menu-label has-text-white-ter">
+                    Management
+                </p>
+                <ul class="menu-list">
+                    <li>
+                        <a href="/admin/teams" class="{{#ifEquals currentPage 'teams'}}is-active{{/ifEquals}}">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Teams</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin/players" class="{{#ifEquals currentPage 'players'}}is-active{{/ifEquals}}">
+                            <i class="fas fa-users"></i>
+                            <span>Players</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <p class="menu-label has-text-white-ter">
+                    Actions
+                </p>
+                <ul class="menu-list">
+                    <li>
+                        <a href="/">
+                            <i class="fas fa-home"></i>
+                            <span>Back to Site</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="admin-main">
+            <!-- Top Bar -->
+            <nav class="admin-topbar">
+                <div class="admin-topbar-left">
+                    <button class="button is-white is-small admin-sidebar-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <nav class="breadcrumb" aria-label="breadcrumbs">
+                        <ul>
+                            <li><a href="/admin">Admin</a></li>
+                            {{#if breadcrumbs}}
+                            {{#each breadcrumbs}}
+                            <li {{#if @last}}class="is-active" {{/if}}>
+                                {{#if @last}}
+                                <a href="#" aria-current="page">{{this}}</a>
+                                {{else}}
+                                <a href="#">{{this}}</a>
+                                {{/if}}
+                            </li>
+                            {{/each}}
+                            {{/if}}
+                        </ul>
+                    </nav>
+                </div>
+                <div class="admin-topbar-right">
+                    <div class="buttons">
+                        <span class="button is-light is-small">
+                            <i class="fas fa-user"></i>
+                            <span>Admin {{user.name}}</span>
+                        </span>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Page Content -->
+            <main class="admin-content">
+                <div class="container">
+                    {{#if success}}
+                    <div class="notification is-success auto-dismiss">
+                        <button class="delete" onclick="this.parentElement.style.display='none'"></button>
+                        <strong>Success!</strong> {{success}}
+                    </div>
+                    {{/if}}
+
+                    {{#if error}}
+                    <div class="notification is-danger auto-dismiss">
+                        <button class="delete" onclick="this.parentElement.style.display='none'"></button>
+                        <strong>Error!</strong> {{error}}
+                    </div>
+                    {{/if}}
+                </div>
+                {{{body}}}
+            </main>
+        </div>
+    </div>
+    <script>
+        // Auto-hide messages after 5 seconds
+        document.addEventListener('DOMContentLoaded', function () {
+            const autoMessages = document.querySelectorAll('.notification.auto-dismiss');
+            autoMessages.forEach(notification => {
+                setTimeout(() => {
+                    if (notification && notification.parentElement) {
+                        notification.style.opacity = '0';
+                        notification.style.transition = 'opacity 0.5s';
+                        setTimeout(() => {
+                            notification.style.display = 'none';
+                        }, 500);
+                    }
+                }, 5000);
+            });
+        });
+    </script>
+    <script src="/javascripts/main.js"></script>
+    <script src="/javascripts/admin.js"></script>
+</body>
+
+</html>

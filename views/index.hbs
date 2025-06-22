@@ -1,0 +1,345 @@
+<section class="hero is-info is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <div>
+              <h1 class="title mb-4">
+                <i class="fas fa-futbol"></i>
+                Football Players
+              </h1>
+              <h2 class="subtitle">
+                Discover amazing football players and their teams
+              </h2>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <!-- Success Message -->
+    {{#if success}}
+      <div class="notification is-success">
+        <button class="delete"></button>
+        <i class="fas fa-check-circle"></i>
+        {{success}}
+      </div>
+    {{/if}}
+
+    <!-- Error Message -->
+    {{#if error}}
+      <div class="notification is-danger">
+        <button class="delete"></button>
+        <i class="fas fa-exclamation-circle"></i>
+        {{error}}
+      </div>
+    {{/if}}
+       <!-- Search and Filter Section -->
+    <div class="box mb-5">
+      <div class="columns">
+        <div class="column">
+          <h3 class="title is-5 mb-4">
+            <i class="fas fa-search"></i>
+            Search & Filter Players
+          </h3>
+          
+          <form method="GET" action="/" id="searchForm">
+            <div class="columns">
+              <!-- Search by Name -->
+              <div class="column is-6">
+                <div class="field">
+                  <label class="label">Search by Player Name</label>
+                  <div class="control has-icons-left">
+                    <input 
+                      class="input" 
+                      type="text" 
+                      name="search" 
+                      placeholder="Enter player name..."
+                      value="{{searchName}}"
+                    >
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-search"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Filter by Team -->
+              <div class="column is-4">
+                <div class="field">
+                  <label class="label">Filter by Team</label>
+                  <div class="control has-icons-left">
+                    <div class="select is-fullwidth">
+                      <select name="team">
+                        <option value="">All Teams</option>
+                        {{#each teams}}
+                          <option value="{{_id}}" {{#ifEquals _id ../filterTeam}}selected{{/ifEquals}}>
+                            {{teamName}}
+                          </option>
+                        {{/each}}
+                      </select>
+                    </div>
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-shield-alt"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Search Button -->
+              <div class="column is-2">
+                <div class="field">
+                  <label class="label">&nbsp;</label>
+                  <div class="control">
+                    <button class="button is-primary is-fullwidth" type="submit">
+                      <span class="icon">
+                        <i class="fas fa-search"></i>
+                      </span>
+                      <span>Search</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Clear Filters -->
+            <div class="field">
+              <div class="control">
+                <a href="/" class="button is-light">
+                  <span class="icon">
+                    <i class="fas fa-times"></i>
+                  </span>
+                  <span>Clear Filters</span>
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Summary -->
+    <div class="level mb-4">
+      <div class="level-left">
+        <div class="level-item">
+          <div>
+            <p class="subtitle is-6">
+              {{#if searchName}}
+                Search results for "<strong>{{searchName}}</strong>"
+                {{#if filterTeam}}
+                  in team "
+                  {{#each teams}}
+                    {{#ifEquals _id ../filterTeam}}
+                      <strong>{{teamName}}</strong>
+                    {{/ifEquals}}
+                  {{/each}}
+                  "
+                {{/if}}
+              {{else if filterTeam}}
+                Players in team "
+                {{#each teams}}
+                  {{#ifEquals _id ../filterTeam}}
+                    <strong>{{teamName}}</strong>
+                  {{/ifEquals}}
+                {{/each}}
+                "
+              {{else}}
+                All Players
+              {{/if}}
+              - <strong>{{totalPlayers}}</strong> found
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Players Grid -->
+    {{#if players}}
+      <div class="columns is-multiline">
+        {{#each players}}
+          <div class="column is-one-third">
+            <div class="card">
+              <div class="card-image">
+                <figure class="image is-4by3">
+                  {{#if image}}
+                    <img
+                      src="{{image}}"
+                      alt="{{playerName}}"
+                      class="has-ratio"
+                    />
+                  {{else}}
+                    <div class="default-player-img">
+                      <i class="fas fa-user-tie"></i>
+                    </div>
+                  {{/if}}
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="media">
+                  <div class="media-content">
+                    <p class="title is-4">{{playerName}}</p>
+                    {{#if team}}
+                      <p class="subtitle is-6">
+                        <span class="tag is-primary">
+                          <i class="fas fa-shield-alt"></i>
+                          <span class="ml-1">{{team.teamName}}</span>
+                        </span>
+                      </p>
+                    {{/if}}
+                  </div>
+                </div>
+
+                <div class="content">
+                  {{#if cost}}
+                    <p><strong>Cost:</strong>
+                      <span
+                        class="has-text-weight-bold has-text-success"
+                      >${{cost}}M</span></p>
+                  {{/if}}
+                  {{#if isCaptain}}
+                    <span class="tag is-warning">
+                      <i class="fas fa-star"></i>
+                      <span class="ml-1">Captain</span>
+                    </span>
+                  {{/if}}
+
+                </div>
+              </div>
+              <footer class="card-footer">
+                <a href="/players/{{_id}}" class="card-footer-item">
+                  <span class="icon">
+                    <i class="fas fa-eye"></i>
+                  </span>
+                  <span>View Detail</span>
+                </a>
+                <a href="/players/{{_id}}/comments" class="card-footer-item">
+                  <span class="icon">
+                    <i class="fas fa-comments"></i>
+                  </span>
+                  <span>Comments</span>
+                </a>
+              </footer>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="notification is-warning">
+        <div class="has-text-centered">
+          <i class="fas fa-exclamation-triangle fa-3x"></i>
+          <p class="title is-5 mt-3">No players found</p>
+          <p class="subtitle is-6">There are currently no players in the
+            database.</p>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+</section>
+<style>
+/* Highlight search results */
+.player-name {
+  position: relative;
+}
+
+/* Search box styling */
+.box {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 1px solid #dee2e6;
+}
+
+/* Search form responsive */
+@media screen and (max-width: 768px) {
+  .search-columns .column {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Card animation */
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Default player image */
+.default-player-img {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.default-player-img i {
+  font-size: 3rem;
+  color: #1976d2;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Auto-hide notifications after 5 seconds
+  const notifications = document.querySelectorAll('.notification');
+  notifications.forEach(notification => {
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.remove();
+      }
+    }, 5000);
+    
+    // Delete button functionality
+    const deleteBtn = notification.querySelector('.delete');
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', () => {
+        notification.remove();
+      });
+    }
+  });
+
+  // Highlight search terms in player names
+  const searchTerm = '{{searchName}}';
+  if (searchTerm) {
+    const playerNames = document.querySelectorAll('.player-name');
+    playerNames.forEach(nameElement => {
+      const text = nameElement.textContent;
+      const regex = new RegExp(`(${searchTerm})`, 'gi');
+      const highlightedText = text.replace(regex, '<mark>$1</mark>');
+      nameElement.innerHTML = highlightedText;
+    });
+  }
+
+  // Real-time search (optional)
+  const searchInput = document.querySelector('input[name="search"]');
+  const teamSelect = document.querySelector('select[name="team"]');
+  let searchTimeout;
+
+  function performSearch() {
+    const searchForm = document.getElementById('searchForm');
+    searchForm.submit();
+  }
+
+  // Optional: Auto-submit on input change (with delay)
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        // performSearch(); // Uncomment for auto-search
+      }, 500);
+    });
+  }
+
+  /*if (teamSelect) {
+    teamSelect.addEventListener('change', function() {
+      performSearch(); // Auto-submit when team changes
+    });
+  }*/
+});
+</script>

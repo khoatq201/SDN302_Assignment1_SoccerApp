@@ -1,0 +1,873 @@
+<section class="hero is-info is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        <i class="fas fa-tachometer-alt"></i>
+        Admin Dashboard
+      </h1>
+      <h2 class="subtitle">
+        Manage your football database system
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <!-- Statistics Cards -->
+    <div class="columns">
+      <div class="column is-4">
+        <div class="box has-background-primary-light">
+          <div class="level">
+            <div class="level-left">
+              <div class="level-item">
+                <div>
+                  <p class="heading">Total Teams</p>
+                  <p class="title is-3 has-text-primary">{{stats.totalTeams}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                <span class="icon is-large has-text-primary">
+                  <i class="fas fa-shield-alt fa-2x"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-4">
+        <div class="box has-background-success-light">
+          <div class="level">
+            <div class="level-left">
+              <div class="level-item">
+                <div>
+                  <p class="heading">Total Players</p>
+                  <p class="title is-3 has-text-success">{{stats.totalPlayers}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                <span class="icon is-large has-text-success">
+                  <i class="fas fa-users fa-2x"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-4">
+        <div class="box has-background-info-light">
+          <div class="level">
+            <div class="level-left">
+              <div class="level-item">
+                <div>
+                  <p class="heading">Total Members</p>
+                  <p class="title is-3 has-text-info">{{stats.totalMembers}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                <span class="icon is-large has-text-info">
+                  <i class="fas fa-user-friends fa-2x"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="box">
+      <h3 class="title is-4">
+        <i class="fas fa-bolt"></i>
+        Quick Actions
+      </h3>
+      <div class="buttons">
+        <a href="/admin/teams" class="button is-primary">
+          <span class="icon"><i class="fas fa-plus"></i></span>
+          <span>Add New Team</span>
+        </a>
+        <a href="/admin/players" class="button is-success">
+          <span class="icon"><i class="fas fa-user-plus"></i></span>
+          <span>Add New Player</span>
+        </a>
+        <a href="/" class="button is-info">
+          <span class="icon"><i class="fas fa-home"></i></span>
+          <span>View Website</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Management Tabs -->
+    <div class="box">
+      <div class="tabs is-boxed">
+        <ul>
+          <li class="is-active" data-tab="teams">
+            <a>
+              <span class="icon"><i class="fas fa-shield-alt"></i></span>
+              <span>Teams Management</span>
+            </a>
+          </li>
+          <li data-tab="players">
+            <a>
+              <span class="icon"><i class="fas fa-users"></i></span>
+              <span>Players Management</span>
+            </a>
+          </li>
+          <li data-tab="members">
+            <a>
+              <span class="icon"><i class="fas fa-user-friends"></i></span>
+              <span>Members Overview</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Teams Tab Content -->
+      <div id="teams-tab" class="tab-content is-active">
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <h4 class="title is-5">Teams Management</h4>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <a href="/admin/teams" class="button is-primary is-small">
+                <span class="icon"><i class="fas fa-plus"></i></span>
+                <span>Add Team</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {{#if teams.length}}
+          <div class="table-container">
+            <table class="table is-fullwidth is-striped is-hoverable">
+              <thead>
+                <tr>
+                  <th>Team Name</th>
+                  <th>Players Count</th>
+                  <th>Created Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each teams}}
+                  <tr>
+                    <td>
+                      <span class="icon-text">
+                        <span class="icon has-text-primary">
+                          <i class="fas fa-shield-alt"></i>
+                        </span>
+                        <span class="has-text-weight-semibold">{{teamName}}</span>
+                      </span>
+                    </td>
+                    <td>
+                      <span class="tag is-info">{{playerCount}} players</span>
+                    </td>
+                    <td>
+                      <span class="has-text-grey">{{formatDate createdAt}}</span>
+                    </td>
+                    <td>
+                      <div class="buttons are-small">
+                        <button class="button is-info is-small" onclick="editTeam('{{_id}}', '{{teamName}}')">
+                          <span class="icon"><i class="fas fa-edit"></i></span>
+                          <span>Edit</span>
+                        </button>
+                        <button class="button is-danger is-small" onclick="confirmDeleteTeam('{{_id}}', '{{teamName}}')">
+                          <span class="icon"><i class="fas fa-trash"></i></span>
+                          <span>Delete</span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        {{else}}
+          <div class="notification is-info">
+            <div class="has-text-centered">
+              <i class="fas fa-shield-alt fa-3x"></i>
+              <p class="title is-5 mt-3">No teams found</p>
+              <p class="subtitle is-6">Create your first team to get started.</p>
+              <a href="/admin/teams" class="button is-primary">
+                <span class="icon"><i class="fas fa-plus"></i></span>
+                <span>Create Team</span>
+              </a>
+            </div>
+          </div>
+        {{/if}}
+      </div>
+
+      <!-- Players Tab Content -->
+      <div id="players-tab" class="tab-content">
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <h4 class="title is-5">Players Management</h4>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <a href="/admin/players" class="button is-success is-small">
+                <span class="icon"><i class="fas fa-user-plus"></i></span>
+                <span>Add Player</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {{#if players.length}}
+          <div class="table-container">
+            <table class="table is-fullwidth is-striped is-hoverable">
+              <thead>
+                <tr>
+                  <th>Player</th>
+                  <th>Team</th>
+                  <th>Cost</th>
+                  <th>Captain</th>
+                  <th>Comments</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each players}}
+                  <tr>
+                    <td>
+                      <div class="media">
+                        <div class="media-left">
+                          <figure class="image is-32x32">
+                            {{#if image}}
+                              <img class="is-rounded" src="{{image}}" alt="{{playerName}}" style="object-fit: cover;">
+                            {{else}}
+                              <div class="default-player-img" style="width: 32px; height: 32px; background: #e8e8e8; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-user has-text-grey"></i>
+                              </div>
+                            {{/if}}
+                          </figure>
+                        </div>
+                        <div class="media-content">
+                          <p class="has-text-weight-semibold">{{playerName}}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="tag is-primary">{{team.teamName}}</span>
+                    </td>
+                    <td>
+                      <span class="has-text-weight-semibold">${{cost}}M</span>
+                    </td>
+                    <td>
+                      {{#if isCaptain}}
+                        <span class="tag is-warning">
+                          <i class="fas fa-crown"></i>
+                          <span class="ml-1">Captain</span>
+                        </span>
+                      {{else}}
+                        <span class="tag is-light">Player</span>
+                      {{/if}}
+                    </td>
+                    <td>
+                      <span class="tag is-info">{{comments.length}} comments</span>
+                    </td>
+                    <td>
+                      <div class="buttons are-small">
+                        <a href="/players/{{_id}}" class="button is-link is-small">
+                          <span class="icon"><i class="fas fa-eye"></i></span>
+                          <span>View</span>
+                        </a>
+                        <button class="button is-info is-small" onclick="editPlayer('{{_id}}')">
+                          <span class="icon"><i class="fas fa-edit"></i></span>
+                          <span>Edit</span>
+                        </button>
+                        <button class="button is-danger is-small" onclick="confirmDeletePlayer('{{_id}}', '{{playerName}}')">
+                          <span class="icon"><i class="fas fa-trash"></i></span>
+                          <span>Delete</span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        {{else}}
+          <div class="notification is-info">
+            <div class="has-text-centered">
+              <i class="fas fa-users fa-3x"></i>
+              <p class="title is-5 mt-3">No players found</p>
+              <p class="subtitle is-6">Create your first player to get started.</p>
+              <a href="/admin/players" class="button is-success">
+                <span class="icon"><i class="fas fa-user-plus"></i></span>
+                <span>Create Player</span>
+              </a>
+            </div>
+          </div>
+        {{/if}}
+      </div>
+
+      <!-- Members Tab Content -->
+      <div id="members-tab" class="tab-content">
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <h4 class="title is-5">Members Overview</h4>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <span class="tag is-info">Read Only</span>
+            </div>
+          </div>
+        </div>
+
+        {{#if members.length}}
+          <div class="table-container">
+            <table class="table is-fullwidth is-striped is-hoverable">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Username</th>
+                  <th>Year of Birth</th>
+                  <th>Role</th>
+                  <th>Joined Date</th>
+                  <th>Comments</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each members}}
+                  <tr>
+                    <td>
+                      <div class="media">
+                        <div class="media-left">
+                          <span class="icon">
+                            <i class="fas fa-user-circle fa-lg"></i>
+                          </span>
+                        </div>
+                        <div class="media-content">
+                          <p class="has-text-weight-semibold">{{name}}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="has-text-grey">@{{memberName}}</span>
+                    </td>
+                    <td>
+                      <span class="tag is-light">{{YOB}}</span>
+                    </td>
+                    <td>
+                      {{#if isAdmin}}
+                        <span class="tag is-danger">
+                          <i class="fas fa-crown"></i>
+                          <span class="ml-1">Admin</span>
+                        </span>
+                      {{else}}
+                        <span class="tag is-info">
+                          <i class="fas fa-user"></i>
+                          <span class="ml-1">Member</span>
+                        </span>
+                      {{/if}}
+                    </td>
+                    <td>
+                      <span class="has-text-grey">{{formatDate createdAt}}</span>
+                    </td>
+                    <td>
+                      <span class="tag is-primary">{{commentCount}} comments</span>
+                    </td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        {{else}}
+          <div class="notification is-info">
+            <div class="has-text-centered">
+              <i class="fas fa-user-friends fa-3x"></i>
+              <p class="title is-5 mt-3">No members found</p>
+              <p class="subtitle is-6">Members will appear here when they register.</p>
+            </div>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</section>
+
+<form id="deleteTeamForm" method="POST" style="display: none;">
+  <input type="hidden" name="_method" value="DELETE">
+</form>
+
+<form id="deletePlayerForm" method="POST" style="display: none;">
+  <input type="hidden" name="_method" value="DELETE">
+</form>
+
+<!-- Edit Team Modal -->
+<div id="editTeamModal" class="modal">
+  <div class="modal-background" onclick="closeEditTeamModal()"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">
+        <i class="fas fa-edit"></i>
+        Edit Team
+      </p>
+      <button class="delete" onclick="closeEditTeamModal()"></button>
+    </header>
+    <section class="modal-card-body">
+      <form id="editTeamForm" method="POST">
+        <div class="field">
+          <label class="label">Team Name</label>
+          <div class="control">
+            <input class="input" type="text" id="editTeamName" name="teamName" required maxlength="50">
+          </div>
+          <p class="help">Enter a unique team name</p>
+        </div>
+      </form>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success" onclick="submitEditTeam()">
+        <span class="icon"><i class="fas fa-save"></i></span>
+        <span>Save Changes</span>
+      </button>
+      <button class="button" onclick="closeEditTeamModal()">Cancel</button>
+    </footer>
+  </div>
+</div>
+
+<!-- Delete Team Confirmation Modal -->
+<div id="deleteTeamModal" class="modal">
+  <div class="modal-background" onclick="closeDeleteTeamModal()"></div>
+  <div class="modal-card">
+    <header class="modal-card-head has-background-danger">
+      <p class="modal-card-title has-text-white">
+        <i class="fas fa-exclamation-triangle"></i>
+        Confirm Delete Team
+      </p>
+      <button class="delete" onclick="closeDeleteTeamModal()"></button>
+    </header>
+    <section class="modal-card-body">
+      <div class="notification is-warning">
+        <strong>Warning!</strong> This action cannot be undone.
+      </div>
+      <p>Are you sure you want to delete the team "<strong id="deleteTeamName"></strong>"?</p>
+      <p class="has-text-grey is-size-7 mt-3">
+        <i class="fas fa-info-circle"></i>
+        Note: You cannot delete a team that still has players. Please move or delete all players first.
+      </p>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-danger" onclick="submitDeleteTeam()">
+        <span class="icon"><i class="fas fa-trash"></i></span>
+        <span>Delete Team</span>
+      </button>
+      <button class="button" onclick="closeDeleteTeamModal()">Cancel</button>
+    </footer>
+  </div>
+</div>
+
+<!-- Edit Player Modal -->
+<div id="editPlayerModal" class="modal">
+  <div class="modal-background" onclick="closeEditPlayerModal()"></div>
+  <div class="modal-card" style="width: 90%; max-width: 600px;">
+    <header class="modal-card-head">
+      <p class="modal-card-title">
+        <i class="fas fa-user-edit"></i>
+        Edit Player
+      </p>
+      <button class="delete" onclick="closeEditPlayerModal()"></button>
+    </header>
+    <section class="modal-card-body">
+      <div id="editPlayerLoading" class="has-text-centered" style="display: none;">
+        <i class="fas fa-spinner fa-spin fa-2x"></i>
+        <p class="mt-3">Loading player data...</p>
+      </div>
+      
+      <form id="editPlayerForm" method="POST" style="display: none;">
+        <div class="columns">
+          <div class="column is-6">
+            <div class="field">
+              <label class="label">Player Name</label>
+              <div class="control">
+                <input class="input" type="text" id="editPlayerName" name="playerName" required maxlength="100">
+              </div>
+            </div>
+            
+            <div class="field">
+              <label class="label">Cost (Million $)</label>
+              <div class="control">
+                <input class="input" type="number" id="editPlayerCost" name="cost" required min="0" max="999" step="0.1">
+              </div>
+            </div>
+            
+            <div class="field">
+              <label class="label">Team</label>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select id="editPlayerTeam" name="team" required>
+                    <option value="">Select a team</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="column is-6">
+            <div class="field">
+              <label class="label">Image URL</label>
+              <div class="control">
+                <input class="input" type="url" id="editPlayerImage" name="image" required>
+              </div>
+              <p class="help">Enter a valid image URL</p>
+            </div>
+            
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox" id="editPlayerCaptain" name="isCaptain">
+                  Is Captain
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="field">
+          <label class="label">Information</label>
+          <div class="control">
+            <textarea class="textarea" id="editPlayerInformation" name="information" required maxlength="500" rows="4"></textarea>
+          </div>
+          <p class="help">Player description and details</p>
+        </div>
+      </form>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success" onclick="submitEditPlayer()" id="editPlayerSubmitBtn" disabled>
+        <span class="icon"><i class="fas fa-save"></i></span>
+        <span>Save Changes</span>
+      </button>
+      <button class="button" onclick="closeEditPlayerModal()">Cancel</button>
+    </footer>
+  </div>
+</div>
+
+<!-- Delete Player Confirmation Modal -->
+<div id="deletePlayerModal" class="modal">
+  <div class="modal-background" onclick="closeDeletePlayerModal()"></div>
+  <div class="modal-card">
+    <header class="modal-card-head has-background-danger">
+      <p class="modal-card-title has-text-white">
+        <i class="fas fa-exclamation-triangle"></i>
+        Confirm Delete Player
+      </p>
+      <button class="delete" onclick="closeDeletePlayerModal()"></button>
+    </header>
+    <section class="modal-card-body">
+      <div class="notification is-warning">
+        <strong>Warning!</strong> This action cannot be undone.
+      </div>
+      <p>Are you sure you want to delete the player "<strong id="deletePlayerName"></strong>"?</p>
+      <p class="has-text-grey is-size-7 mt-3">
+        <i class="fas fa-info-circle"></i>
+        This will also delete all comments for this player.
+      </p>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-danger" onclick="submitDeletePlayer()">
+        <span class="icon"><i class="fas fa-trash"></i></span>
+        <span>Delete Player</span>
+      </button>
+      <button class="button" onclick="closeDeletePlayerModal()">Cancel</button>
+    </footer>
+  </div>
+</div>
+
+<style>
+  .tab-content {
+    display: none;
+  }
+  
+  .tab-content.is-active {
+    display: block;
+  }
+  
+  .tabs li.is-active a {
+    border-bottom-color: #3273dc;
+    color: #3273dc;
+  }
+  
+  .default-player-img {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+  
+  .media .media-left {
+    margin-right: 0.5rem;
+  }
+  
+  .buttons.are-small .button {
+    font-size: 0.75rem;
+  }
+  
+  .table th {
+    border-bottom: 2px solid #dbdbdb;
+    color: #363636;
+    font-weight: 600;
+  }
+  
+  .table tr:hover {
+    background-color: #fafafa;
+  }
+  /* Modal improvements */
+  .modal-card {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .modal-card-body {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  
+  .notification.is-warning {
+    background-color: #fffbf0;
+    color: #947600;
+  }
+  
+  .has-background-danger .has-text-white {
+    color: white !important;
+  }
+  
+  /* Form improvements */
+  .field .label {
+    margin-bottom: 0.5rem;
+  }
+  
+  .help {
+    font-size: 0.75rem;
+    color: #6c757d;
+  }
+  
+  .checkbox {
+    margin-top: 0.5rem;
+  }
+  
+  /* Loading state */
+  .fa-spinner {
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Button improvements */
+  .modal-card-foot .button {
+    margin-right: 0.5rem;
+  }
+  
+  .modal-card-foot .button:last-child {
+    margin-right: 0;
+  }
+</style>
+
+<script>
+// Tab switching
+document.addEventListener('DOMContentLoaded', function() {
+  const tabs = document.querySelectorAll('.tabs li');
+  const tabContents = document.querySelectorAll('.tab-content');
+  
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      const targetTab = this.getAttribute('data-tab');
+      
+      // Remove active class from all tabs and contents
+      tabs.forEach(t => t.classList.remove('is-active'));
+      tabContents.forEach(content => content.classList.remove('is-active'));
+      
+      // Add active class to clicked tab and corresponding content
+      this.classList.add('is-active');
+      document.getElementById(targetTab + '-tab').classList.add('is-active');
+    });
+  });
+  
+  // Auto-hide notifications
+  const notifications = document.querySelectorAll('.notification.is-success, .notification.is-danger');
+  notifications.forEach(notification => {
+    setTimeout(() => {
+      if (notification.parentElement) {
+        notification.style.display = 'none';
+      }
+    }, 5000);
+  });
+});
+
+// ==================== TEAM MANAGEMENT ====================
+
+// Edit Team Functions
+function editTeam(teamId, teamName) {
+  document.getElementById('editTeamName').value = teamName;
+  document.getElementById('editTeamForm').action = `/admin/teams/${teamId}/edit`;
+  document.getElementById('editTeamModal').classList.add('is-active');
+  
+  // Focus on input
+  setTimeout(() => {
+    document.getElementById('editTeamName').focus();
+  }, 100);
+}
+
+function closeEditTeamModal() {
+  document.getElementById('editTeamModal').classList.remove('is-active');
+}
+
+function submitEditTeam() {
+  const teamName = document.getElementById('editTeamName').value.trim();
+  if (!teamName) {
+    alert('Please enter a team name');
+    return;
+  }
+  
+  document.getElementById('editTeamForm').submit();
+}
+
+// Delete Team Functions
+function confirmDeleteTeam(teamId, teamName) {
+  document.getElementById('deleteTeamName').textContent = teamName;
+  document.getElementById('deleteTeamForm').action = `/admin/teams/${teamId}/delete`;
+  document.getElementById('deleteTeamModal').classList.add('is-active');
+}
+
+function closeDeleteTeamModal() {
+  document.getElementById('deleteTeamModal').classList.remove('is-active');
+}
+
+function submitDeleteTeam() {
+  document.getElementById('deleteTeamForm').submit();
+}
+
+// ==================== PLAYER MANAGEMENT ====================
+
+// Edit Player Functions
+async function editPlayer(playerId) {
+  try {
+    // Show modal and loading
+    document.getElementById('editPlayerModal').classList.add('is-active');
+    document.getElementById('editPlayerLoading').style.display = 'block';
+    document.getElementById('editPlayerForm').style.display = 'none';
+    document.getElementById('editPlayerSubmitBtn').disabled = true;
+    
+    // Fetch player data
+    const response = await fetch(`/admin/players/${playerId}/edit`);
+    const data = await response.json();
+    
+    if (data.success) {
+      // Populate form
+      document.getElementById('editPlayerName').value = data.player.playerName;
+      document.getElementById('editPlayerImage').value = data.player.image;
+      document.getElementById('editPlayerCost').value = data.player.cost;
+      document.getElementById('editPlayerCaptain').checked = data.player.isCaptain;
+      document.getElementById('editPlayerInformation').value = data.player.information;
+      
+      // Populate teams dropdown
+      const teamSelect = document.getElementById('editPlayerTeam');
+      teamSelect.innerHTML = '<option value="">Select a team</option>';
+      data.teams.forEach(team => {
+        const option = document.createElement('option');
+        option.value = team._id;
+        option.textContent = team.teamName;
+        if (team._id === data.player.team._id) {
+          option.selected = true;
+        }
+        teamSelect.appendChild(option);
+      });
+      
+      // Set form action
+      document.getElementById('editPlayerForm').action = `/admin/players/${playerId}/edit`;
+      
+      // Hide loading, show form
+      document.getElementById('editPlayerLoading').style.display = 'none';
+      document.getElementById('editPlayerForm').style.display = 'block';
+      document.getElementById('editPlayerSubmitBtn').disabled = false;
+      
+    } else {
+      alert('Error loading player data: ' + data.error);
+      closeEditPlayerModal();
+    }
+  } catch (error) {
+    console.error('Error fetching player data:', error);
+    alert('Error loading player data. Please try again.');
+    closeEditPlayerModal();
+  }
+}
+
+function closeEditPlayerModal() {
+  document.getElementById('editPlayerModal').classList.remove('is-active');
+}
+
+function submitEditPlayer() {
+  // Basic validation
+  const playerName = document.getElementById('editPlayerName').value.trim();
+  const image = document.getElementById('editPlayerImage').value.trim();
+  const cost = document.getElementById('editPlayerCost').value;
+  const team = document.getElementById('editPlayerTeam').value;
+  const information = document.getElementById('editPlayerInformation').value.trim();
+  
+  if (!playerName || !image || !cost || !team || !information) {
+    alert('Please fill in all required fields');
+    return;
+  }
+  
+  if (cost <= 0) {
+    alert('Cost must be greater than 0');
+    return;
+  }
+  
+  document.getElementById('editPlayerForm').submit();
+}
+
+// Delete Player Functions
+function confirmDeletePlayer(playerId, playerName) {
+  document.getElementById('deletePlayerName').textContent = playerName;
+  document.getElementById('deletePlayerForm').action = `/admin/players/${playerId}/delete`;
+  document.getElementById('deletePlayerModal').classList.add('is-active');
+}
+
+function closeDeletePlayerModal() {
+  document.getElementById('deletePlayerModal').classList.remove('is-active');
+}
+
+function submitDeletePlayer() {
+  document.getElementById('deletePlayerForm').submit();
+}
+
+// ==================== UTILITY FUNCTIONS ====================
+
+// Close modal when clicking outside
+document.addEventListener('click', function(event) {
+  if (event.target.classList.contains('modal-background')) {
+    // Close any open modal
+    const modals = document.querySelectorAll('.modal.is-active');
+    modals.forEach(modal => modal.classList.remove('is-active'));
+  }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    const modals = document.querySelectorAll('.modal.is-active');
+    modals.forEach(modal => modal.classList.remove('is-active'));
+  }
+});
+</script>
